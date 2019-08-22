@@ -1,0 +1,16 @@
+
+#editsettings { }
+
+#editsettings #meta { position: fixed; top: 0px left: 0px; z-index: 9; height: 100%; max-width: 250px; 
+	background: #eee; padding: 90px 15px 20px 0px; text-align: right; border-right: 1px solid #ddd; }
+#editsettings #meta .button-container button { display: block; float: right; margin: 10px 0px 5px; }
+#editsettings #meta .button-container { display: block; clear: both; width: 100%; text-align: right; }
+
+#editsettings #form textarea { max-width: 100%; }
+
+#editsettings #form .dp-wrapper { position: relative; }
+#editsettings #form .dp-wrapper .dp-edit { display: block; margin-top: 5px; cursor: pointer; }
+#editsettings #form .dp-wrapper .datepicker { display: none; position: absolute; right: 30px; top: -15px; z-index: 11; }
+#editsettings #form .select2 { width: 100%; }
+
+#editsettings #settingsListTable .edit input { color: #555; } 

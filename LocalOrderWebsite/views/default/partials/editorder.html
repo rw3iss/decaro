@@ -1,0 +1,310 @@
+
+<link rel="stylesheet" href="/assets/css/editorder.css" media="screen">
+
+<div class="container-fluid page" id="editorder" ng-model="editingOrder">
+    
+    <div class="row" id="page-header">
+        <div class="header col-md-12">
+            <h2>{{ order.id == 0 ? "New Order" : "Edit Order: " + order.order_number}}</h2>
+        </div>
+    </div>
+    
+    <div id="page-content" class="row order-loaded">
+        <form class="form-horizontal" role="form" name="orderForm" novalidate>
+            
+            <div class="col-md-2 sidebar fixed" id="meta">
+                <div class="button-container">
+                    <button type="button" class="btn btn-sm btn-primary" id="back-to-orders" ng-click="backToOrders()"><span class="glyphicon glyphicon-arrow-left"></span> Back to Orders</button>
+                </div>
+                <div class="button-container">
+                    <button type="submit" class="btn btn-default" ng-click="saveOrder(orderForm.$valid)">Save Order</button>
+                </div>
+                <div class="button-container">
+                    <button type="button" class="btn btn-sm btn-default" ng-disabled="!orderForm.$valid && !orderSaved" ng-click="generateOrderPDF()">Print Order</button>
+                </div>
+                <div class="button-container">
+                    <button type="button" class="btn btn-sm btn-danger" id="delete-order" ng-click="deleteOrder()"><span class="glyphicon glyphicon-remove"></span> Delete Order</button>
+                </div>
+            </div>
+            
+            <div class="col-md-7 content form" id="orderForm">
+                <div class="section">
+                    <h2 class="section-title">Order Details</h2>
+
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label for="status" class="col-sm-2 control-label required">Order Number</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="orderNumber" ng-model="order.order_number" value="{{order.order_number}}" />
+                                <p ng-show="!order.order_number" class="error-block">Save the order to automatically generate an order number.</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="status" class="col-sm-2 control-label">Customer Number</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="customerNumber" ng-model="order.customer_number" value="{{order.customer_number}}" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="status" class="col-sm-2 control-label">Order Status</label>
+                            <div class="col-sm-2">
+                                <div class="c-select">
+                                    <select id="status" class="select2" ng-model="order.status" ng-change="orderStatusChanged()">
+                                        <option value="INCOMPLETE">Incomplete</option>
+                                        <option value="COMPLETE">Complete</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="deliveredWrapper" ng-show="order.status == 'DELIVERED' || order.status == 'COMPLETE'">
+                            <div class="form-group">
+                                <label for="podSignature" class="col-sm-2 control-label">Proof of Delivery</label>
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" name="pod_signature" id="podSignature" ng-model="order.pod_signature" placeholder="Signature"/>
+                                    <p ng-show="!orderForm.pod_signature.$valid && orderForm.pod_signature.$dirty == true" class="error-block">Signature is required.</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-3 col-sm-offset-2 datetimepicker" id="podDate" data-date-format="M/D/YYYY h:mm A">
+                                    <input type="text" class="form-control" name="pod_date" ng-model="order.pod_date" placeholder="Date Delivered"> <!-- ng-required="order.status == 'COMPLETE'"-->
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                    <p ng-show="!orderForm.pod_date.$valid && orderForm.pod_date.$dirty" class="error-block tablerow">Date delivered is required.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="total" class="control-label col-sm-2 required">Order Total</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="podTotalCharges" ng-model="order.pod_total" ng-blur="podPriceChanged()" placeholder="Total" />
+                            </div>
+                        </div>
+                        <div class="form-group"> 
+                            <label for="readytime" class="control-label col-sm-2 required">Date Created</label>
+                            <div class="col-sm-3 datetimepicker" id="datecreated" data-date-format="M/D/YYYY h:mm A">
+                                <input type="text" class="form-control" name="date_created" ng-model="order.date_created" placeholder="Date Created" required>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                <p ng-show="!orderForm.date_created.$valid && orderForm.date_created.$dirty" class="error-block tablerow">Date created is required.</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="client" class="col-sm-2 control-label required">Client</label>
+                            <div class="col-sm-4">
+                                <div class="c-select">
+                                    <select id="client" name="client" class="select2" name="client_id" ng-model="order.client_id" required ng-change="clientChanged()">
+                                        <option value="0">Select...</option>
+                                        <option ng-repeat="c in clients" value="{{c.id}}" ng-selected="{{c.id == order.client_id}}">{{c.name}}</option>
+                                    </select>
+                                </div>
+                                <p ng-show="orderLoaded && !orderForm.client.$valid || orderForm.client.$viewValue == 0 && orderForm.client.$dirty == true" class="error-block">Client is required.</p>
+                            </div>
+                        </div>
+                         <div class="form-group">
+                            <label for="client_station" class="col-sm-2 control-label required">Client Station</label>
+                            <div class="col-sm-4">
+                            <div class="c-select">
+                                <select id="client_station" name="client_station" ng-change="clientStationChanged()" class="select2" name="client_id" ng-model="order.client_station_id" required>
+                                    <option value="0">Select...</option>
+                                    <option ng-repeat="c in clientStations" value="{{c.id}}" ng-selected="{{c.id == order.client_station_id}}">{{c.name}}</option>
+                                </select>
+                            </div>
+                            <p ng-show="orderLoaded && !orderForm.client_station.$valid || orderForm.client_station.$viewValue == 0 && orderForm.client_station.$dirty == true" class="error-block">Client station is required.</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group payment">
+                            <label for="payment" class="col-sm-2 control-label required">Payment</label>
+                            <div class="col-sm-7 payment-options">
+                                <div class="radio">
+                                    <label>
+                                    <input type="radio" ng-change="paymentTypeChanged()" name="payment_type" ng-model="order.payment_type" id="paymentCollect" value="collect" checked>
+                                    Collect
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                    <input type="radio" ng-change="paymentTypeChanged()" name="payment_type" ng-model="order.payment_type" id="paymentPrepaid" value="prepaid">
+                                    Prepaid
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                    <input type="radio" ng-change="paymentTypeChanged()" name="payment_type" ng-model="order.payment_type" id="paymentThirdparty" value="thirdparty">
+                                    Third Party
+                                    </label>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div id="thirdPartyAddressWrapper" ng-show="order.payment_type == 'thirdparty'">
+                                    <div class="form-group">
+                                        <div class="col-sm-7">
+                                            <input type="text" class="form-control" id="thirdPartyAddress" name="third_party_address" ng-model="order.third_party_address" placeholder="* Address" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-7">
+                                            <input type="text" class="form-control" id="thirdPartyAddress2" name="third_party_address2" ng-model="order.third_party_address2" placeholder="Address Line 2" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-5">
+                                            <input type="text" class="form-control" id="thirdPartyCity" name="third_party_city" ng-model="order.third_party_city" placeholder="* City" />
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="c-select">
+                                                <select id="thirdPartyState" name="third_party_state" class="select2 required" ng-model="order.third_party_state">
+                                                    <option value="0">State...</option>
+                                                    <option ng-repeat="(key,value) in states" value="{{key}}" ng-selected="{{key == order.origin_state}}">{{value}}</option>
+                                                </select>
+                                                <p ng-show="!orderForm.third_party_state.$valid || orderForm.third_party_state.$viewValue == 0 && orderForm.third_party_state.$dirty == true" class="error-block">State is required.</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <input type="text" class="form-control required" id="thirdPartyZipCode" name="third_party_zipcode" ng-model="order.third_party_zipcode" placeholder="Zip Code" required ng-minlength="5" ng-required="order.payment_type == 'thirdparty'" />
+                                            <p ng-show="!orderForm.third_party_zipcode.$valid && orderForm.third_party_zipcode.$dirty" class="error-block">Zipcode is required.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group delivery">
+                            <label for="payment" class="col-sm-2 control-label required">Delivery Type</label>
+                            <div class="col-sm-2">
+                                <div class="c-select">
+                                    <select id="delivery_type" name="delivery_type" class="select2" name="delivery_type" ng-model="order.delivery_type" required>
+                                        <option value="0" ng-selected="{{order.delivery_type == 0}}">Select...</option>
+                                        <option value="pickup" ng-selected="{{order.delivery_type == 'pickup'}}">Pickup</option>
+                                        <option value="delivery" ng-selected="{{order.delivery_type == 'delivery'}}">Delivery</option>
+                                        <option value="attempt" ng-selected="{{order.delivery_type == 'attempt'}}">Attempt</option>
+                                        <option value="transfer" ng-selected="{{order.delivery_type == 'transfer'}}">Transfer</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="thirdPartyAddress" class="col-sm-2 control-label">Shipper</label>
+                            <div ng-show="order.shipper_enabled == 0 || !order.shipper_enabled">
+                                <div class="form-group col-sm-offset-1">
+                                    <div class="btn btn-default btn-sm shipper-button" ng-click="order.shipper_enabled = 1">Add Shipper Address</div>
+                                </div>
+                            </div>
+                            <div id="originAddressWrapper" ng-show="order.shipper_enabled == 1">
+                                <div class="form-group">
+                                    <div class="btn btn-default btn-sm shipper-button" ng-click="removeShipperAddress()">Remove Shipper Address</div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-4 col-sm-offset-2">
+                                        <input type="text" class="form-control" id="shipper_name" name="shipper_name" placeholder="Name" ng-model="order.shipper_name" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-4 col-sm-offset-2">
+                                        <input type="text" class="form-control" id="originAddress" name="origin_address" placeholder="Address" ng-model="order.origin_address" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-3 col-sm-offset-2">
+                                        <input type="text" class="form-control" id="originCity" name="origin_city" placeholder="City" ng-model="order.origin_city" />
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="c-select">
+                                            <select id="originState" name="origin_state" class="select2" ng-model="order.origin_state">
+                                                <option value="0">State...</option>
+                                                <option ng-repeat="(key,value) in states" value="{{key}}" ng-selected="{{key == order.origin_state}}">{{value}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <input type="text" class="form-control required" id="originZipCode" name="origin_zipcode" placeholder="Zip Code" ng-model="order.origin_zipcode" ng-minlength="5" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="destinationAddressWrapper">
+                            <div class="form-group">
+                                <label for="destinationAddress" class="col-sm-2 control-label required">Consignee</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" id="destinationName" name="destination_name" placeholder="Name" ng-model="order.destination_name" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4 col-sm-offset-2">
+                                    <input type="text" class="form-control" id="destinationAddress" name="destination_address" placeholder="Address" ng-model="order.destination_address"  />
+                                    <p ng-show="!orderForm.destination_address.$valid && orderForm.destination_address.$dirty" class="error-block">Address is required.</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-3 col-sm-offset-2">
+                                    <input type="text" class="form-control" id="destinationCity" name="destination_city" placeholder="* City" ng-model="order.destination_city" />
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="c-select">
+                                        <select id="destinationState" name="destination_state" class="select2" ng-model="order.destination_state">
+                                            <option value="0">State...</option>
+                                            <option ng-repeat="(key,value) in states" value="{{key}}" ng-selected="{{key == order.destination_state}}">{{value}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" id="destinationZipCode" name="destination_zipcode" placeholder="Zip Code" ng-model="order.destination_zipcode"  ng-minlength="5" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description" class="col-sm-2 control-label">Description</label>
+                            <div class="col-sm-7">
+                                <textarea rows="3" class="form-control" id="origin" name="description" ng-model="order.description" placeholder="Description"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="pieces" class="col-sm-2 control-label required">Pieces</label>
+                            <div class="col-sm-1b">
+                                <input type="text" class="form-control" id="pieces" name="pieces" ng-model="order.pieces" placeholder="Pieces" required />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="weight" class="col-sm-2 control-label required">Weight</label>
+                            <div class="col-sm-1b">
+                                <input type="text" class="form-control" id="weight" name="weight" ng-model="order.weight" placeholder="Weight" required />
+                            </div>  
+                        </div>
+                        <div class="form-group">
+                            <label for="readytime" class="control-label col-sm-2">Pickup Time</label>
+                            <div class="col-sm-3 datetimepicker" id="readytime" data-date-format="M/D/YYYY h:mm A">
+                                <input type="text" class="form-control" name="ready_time" ng-model="order.ready_time" placeholder="Ready Time">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="closetime" class="control-label col-sm-2">Close Time</label>
+                            <div class="col-sm-3 datetimepicker" id="closetime" data-date-format="M/D/YYYY h:mm A">
+                                <input type="text" class="form-control" ng-model="order.close_time" name="close_time" placeholder="Close Time">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="additional" class="col-sm-2 control-label">Additional<br/><span style="font-weight: normal; font-size: .9em;">(internal use only)</span></label>
+                            <div class="col-sm-7">
+                                <textarea class="form-control" id="additional" name="additional" ng-model="order.additional" placeholder="Additional Notes"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="fuelsurcharge" class="col-sm-2 control-label">Fuel Surcharge<br/>
+                            <span style="font-weight: normal; font-size: .9em;">(optional)</span></label>
+                            <div class="col-sm-1b">
+                                <input type="text" validate-float class="form-control" name="fuel_surcharge" id="fuelsurcharge" ng-model="order.fuel_surcharge" value="" placeholder="%" />
+                                <p ng-show="!orderForm.fuel_surcharge.$valid && orderForm.fuel_surcharge.$dirty" class="error-block">Fuel surcharge must be a number.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>

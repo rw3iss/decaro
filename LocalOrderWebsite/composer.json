@@ -1,0 +1,12 @@
+{
+    "name": "decaro/admin-application",
+    "require": {
+        "zendframework/zendframework": "^3.0"
+    },
+    "authors": [
+        {
+            "name": "Ryan Weiss",
+            "email": "rw3iss@gmail.com"
+        }
+    ]
+}

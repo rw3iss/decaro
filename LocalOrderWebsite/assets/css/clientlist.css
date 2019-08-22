@@ -1,0 +1,31 @@
+
+#clientlist { }
+
+#clientlist #meta { position: fixed; top: 0px left: 0px; z-index: 9; height: 100%; max-width: 250px; 
+	background: #eee; padding: 90px 15px 20px 0px; text-align: right; border-right: 1px solid #ddd; }
+#clientlist #meta .button-container button { display: block; float: right; margin: 10px 0px 5px; }
+#clientlist #meta .button-container { display: block; clear: both; width: 100%; text-align: right; }
+
+#clientlist .form textarea { max-width: 100%; }
+
+#clientlist .form .dp-wrapper { position: relative; }
+#clientlist .form .dp-wrapper .dp-edit { display: block; margin-top: 5px; cursor: pointer; }
+#clientlist .form .dp-wrapper .datepicker { display: none; position: absolute; right: 30px; top: -15px; z-index: 11; }
+#clientlist .form .select2 { width: 100%; }
+
+#clientlist #clientListTable { margin-top: 50px; margin-bottom: 50px; }
+
+#clientlist #clientListTable .client-row { color: #333; }
+#clientlist #clientListTable .clientname { }
+#clientlist #clientListTable .stationcount { color: #444; } 
+
+#clientlist #clientListTable .navigation { padding-right: 20px; }
+
+#clientlist #clientListTable .navigation .total-records { text-align: right; align-self: flex-end; color: #555; }
+#clientlist #clientListTable .pagecount-select { margin-top: 10px; text-align: right; color: #555; }
+
+#clientlist #clientListTable .navigation .pagination { margin: 10px 0px 0px; }
+
+#clientlist #clientListTable .navigation .pagination .pagecount-select label { display: inline-block; position: relative; top: -10px; }
+#clientlist #clientListTable .navigation .pagination .pagecount-select .c-select { display: inline-block; margin: 5px 0px 0px;}
+#clientlist #clientListTable .navigation .pagination .pagecount-select .c-select { width: 55px; }

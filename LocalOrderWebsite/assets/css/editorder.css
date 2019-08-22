@@ -1,0 +1,33 @@
+
+#editorder { }
+
+#editorder #orderForm { padding-bottom: 20px !important; }
+
+#editorder .order-loading { position: fixed; width: 100%; text-align: center; margin: 80px auto; }
+
+#editorder .form { }
+#editorder .form textarea { max-width: 100%; }
+
+#editorder .form .dp-wrapper { position: relative; }
+#editorder .form .dp-wrapper .dp-edit { display: block; margin-top: 5px; cursor: pointer; }
+#editorder .form .dp-wrapper .datepicker { display: none; position: absolute; right: 145px; top: -20px; z-index: 11; }
+#editorder .form .select2 { width: 100%; }
+
+#editorder .form .timepicker { display: table; }
+#editorder .form .timepicker input { border-bottom-right-radius: 0px; border-top-right-radius: 0px; }
+
+#editorder .form .required:before { content: "*"; color: red; position: relative; left: -5px; top: 5px; font-size: 14pt; }
+
+#editorder .form .shipper-button { margin-left: 10px; }
+
+#editorder .form #thirdPartyAddressWrapper { margin-top: 10px; }
+
+#editorder .form #dateCreated { display: block; float: left; margin: 5px 0px 0px 0px; }
+#editorder .form .dp-edit { display: block; float: left; margin: 0px 0px 0px 15px; }
+
+#editorder .form .fuel-surcharge-reset { margin: 5px 0px 0px -15px; }
+
+#editorder .form .payment .payment-options .radio { display: block; float: left; }
+#editorder .form .payment .payment-options .radio + * { margin-left: 15px; }
+
+#editorder .form #orderNumber { font-weight: bold; color: #777; }

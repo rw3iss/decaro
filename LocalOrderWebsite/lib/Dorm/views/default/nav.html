@@ -1,0 +1,19 @@
+<template name="nav">
+
+	<nav role="navigation">
+		<ul id="navlist">
+			<li class="logo">
+				<img src="/assets/decaro_logo_sm2.png"/>
+			</li>
+			<li>
+				<a>Orders</a>
+				<ul>
+					<li><a href="/editorder/new">New Order</a></li>
+					<li><a href="/orderlist">View All Orders</a></li>
+				</ul>
+			</li>
+			<li class="current-user"><span>Welcome, {{currentUser.username}} <a id="logout">Logout</a></span></li>
+		</ul>
+	</nav>
+
+</template>

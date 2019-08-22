@@ -1,0 +1,155 @@
+
+<link rel="stylesheet" href="/assets/css/editinvoice.css" media="screen">
+
+<style>
+    #editinvoice #meta .button-container { margin: 5px 0px 5px 0px; }
+</style>
+
+<div class="container-fluid page" id="editinvoice" ng-model="invoice">
+
+    <div class="row" id="page-header">
+        <div class="header col-md-12">
+            <h2>{{ invoice.id == 0 ? "Generate a New Invoice" : "Edit Invoice: " + invoice.invoice_number}}</h2>
+        </div>
+    </div>
+
+    <div class="row" id="page-content">
+        <form class="form-horizontal form" role="form" name="invoiceForm" ng-submit="saveInvoice(invoiceForm.$valid)" novalidate>
+
+            <div class="col-md-2 sidebar fixed" id="meta"> 
+                <div class="button-container"><div class="btn btn-sm btn-primary" id="back-to-clients" ng-click="backToInvoices()"><span class="glyphicon glyphicon-arrow-left"></span> Back to Invoices</div></div>
+                <div class="button-container"><button type="submit" class="btn btn-default" ng-disabled="!invoiceForm.$valid">Save Invoice</button>
+                </div>
+                <div class="button-container"><div class="btn btn-sm btn-default" ng-click="generateInvoicePDF()">Print Invoice</div></div>
+                <div class="button-container"><div class="btn btn-sm btn-default" ng-click="generateManifestPDF()">Print Manifest</div></div>
+                <div class="button-container"><div class="btn btn-sm btn-danger" id="delete-client" ng-click="deleteInvoice()"><span class="glyphicon glyphicon-remove"></span> Delete Invoice</div></div>
+            </div>
+
+            <div class="col-md-10 content form" id="invoiceForm">
+                <div class="section">
+                    <h2 class="section-title">Invoice Details</h2>
+                    <div class="section-content">
+
+                        <div class="form-group">
+                            <label for="invoicenumber" class="col-sm-2 control-label">Invoice Number</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control col-sm-2" id="invoiceNumber" ng-model="invoice.invoice_number" value="{{invoice.invoice_number}}" />
+                            </div>
+                        </div>
+
+                        <div class="form-group form-inline select-client">
+                            <label for="client" class="col-sm-2 control-label required">Select a client</label>
+                            <div class="col-sm-4">
+                                <div class="c-select">
+                                    <select id="client" name="client" class="select2" name="client_id" ng-change="clientChanged()" ng-model="invoice.client_id" required>
+                                        <option value="0">Select...</option>
+                                        <option ng-repeat="c in clients" value="{{c.id}}" ng-selected="{{c.id == invoice.client_id}}">{{c.name}}</option>
+                                    </select>
+                                </div>
+                                <p ng-show="!invoiceForm.client.$valid || invoiceForm.client.$viewValue == 0 && invoiceForm.client.$dirty == true" class="error-block">Client is required.</p>
+                            </div>
+                        </div>  
+
+                        <div class="form-group form-inline select-client-station">
+                            <label for="station" class="col-sm-2 control-label required">Select a station</label>
+                            <div class="col-sm-4">
+                                <div class="c-select">
+                                    <select id="client_station_id" name="client_station_id" class="select2" ng-change="clientStationChanged()" ng-model="invoice.client_station_id" required>
+                                        <option value="0" ng-selected="{{invoice.client_station_id == 0 || invoice.client_station_id == null}}">Select...</option>
+                                        <option ng-repeat="s in clientStations" value="{{s.id}}" ng-selected="{{s.id == invoice.client_station_id}}">{{s.name}}</option>
+                                    </select>
+                                </div>
+                                <p ng-show="!invoiceForm.client.$valid || invoiceForm.client.$viewValue == 0 && invoiceForm.client.$dirty == true" class="error-block">Client station is required.</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="client" class="col-sm-2 control-label required">Invoice date (shown):</label>
+                            <div class="col-sm-2 date-due-by">
+                                <div class="date-container">
+                                    <div class="datepicker" id="invoiceDate" data-date-format="M/D/YYYY">
+                                        <input type="text" class="form-control" ng-model="invoice.invoice_date" name="invoice_date" placeholder="Invoice Date">
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group form-inline">
+                            <label for="orders" class="control-label col-sm-offset-1 required">Choose which orders to display:</label>
+                            <div class="date-choose col-sm-offset-1">
+                                <div class="date-container">
+                                    <div class="datepicker" id="dateFrom" data-date-format="M/D/YYYY">
+                                        <input type="text" class="form-control" ng-model="invoice.date_from" name="close_time" placeholder="* Date From">
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                    </div>
+                                </div>
+                                <div class="date-container">
+                                    <div class="datepicker" id="dateTo" data-date-format="M/D/YYYY">
+                                        <input type="text" class="form-control" ng-model="invoice.date_to" name="close_time" placeholder="* Date To">
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group select-orders" ng-show="invoice.client_id != 0 && orders.length > 0">
+                            <label for="orders-select" class="control-label col-sm-offset-1">Select orders to include in this invoice:</label>
+                            <div class="options">
+                                <div class="button-container left col-sm-offset-1"><div ng-click="selectAllOrders()" class="btn btn-xs btn-default">Select all orders</div></div>
+                                <div class="button-container left"><div ng-click="deselectAllOrders()" class="btn btn-xs btn-default">Deselect all orders</div></div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <table class="table table-striped data-table select-orders">
+                              <thead>
+                                <th style="width: 50px;">Select</th>
+                                <th>#</th>
+                                <th>Date Created</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                                <th></th>
+                              </thead>
+                              <tbody>
+                                <tr class="order_{{o.id}}" ng-click="orderSelected(o, $event)" ng-repeat="o in orders track by $index">
+                                    <td style="width: 50px; text-align: center;">
+                                        <input class="order-select" type="checkbox" name="cb_{{o.id}}" ng-checked="orderIsInList(o.id)" />
+                                    </td>
+                                    <td>{{o.order_number}}</td>
+                                    <td>{{o.date_created | formatDate:'M/D/YYYY'}}</td>
+                                    <td>{{(o.pod_total | formatPrice) || "-"}}</td>
+                                    <td>{{o.status | camelcase}}</td>
+                                    <td><a href="#/editorder/{{o.id}}" class="btn btn-default btn-xs view-order">View</a></td>
+                                </tr>
+                              </tbody>
+                            </table>
+                        </div>
+
+                        <div class="form-group no-orders" ng-show="ordersLoaded && orders.length == 0">
+                            <label for="client" class="control-label col-sm-offset-1">No orders exist for this client and station in the given date range.</label>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="client" class="col-sm-1 control-label">Total:</label>
+                            <div class="col-sm-2 invoice-total">
+                                {{calculateInvoiceTotal()}}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="client" class="col-sm-1 control-label required">Due by:</label>
+                            <div class="col-sm-2 date-due-by">
+                                <div class="date-container">
+                                    <div class="datepicker" id="invoiceDueBy" data-date-format="M/D/YYYY">
+                                        <input type="text" class="form-control" ng-model="invoice.date_due_by" name="close_time" placeholder="* Due by">
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>

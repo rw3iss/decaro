@@ -1,0 +1,126 @@
+
+<link rel="stylesheet" href="/assets/css/edituser.css" media="screen">
+
+<div class="container-fluid page" id="edituser" ng-model="user">
+
+    <div class="row" id="page-header">
+        <div class="header col-md-12">
+            <h2>{{ user.id == 0 ? "New User" : "Edit User: " + user.firstname + " " + user.lastname }}</h2>
+        </div>
+    </div>
+
+    <div class="row" id="page-content">
+        <form class="form-horizontal" role="form" name="userForm" ng-submit="saveUser(userForm.$valid)" novalidate>
+            
+            <div class="col-md-2 sidebar fixed" id="meta">
+                <div class="button-container">
+                    <button type="button" class="btn btn-sm btn-primary" id="back-to-users" ng-click="backToUsers()"><span class="glyphicon glyphicon-arrow-left"></span> Back to Users</button>
+                </div>
+                <div class="button-container">
+                    <button type="submit" class="btn btn-default" ng-disabled="!userForm.$valid">Save User</button>
+                </div>
+                <div class="button-container">
+                    <button type="button" class="btn btn-sm btn-danger" id="delete-user" ng-click="deleteUser()"><span class="glyphicon glyphicon-remove"></span> Delete User</button>
+                </div>
+            </div>
+
+            <div class="col-md-7 content form" id="userForm">
+                <div class="section">
+                    <h2 class="section-title">User Details</h2>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label for="firstname" class="col-sm-2 control-label">First Name</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="firstname" name="firstname" placeholder="First name" ng-model="user.firstname" required />
+                                <p ng-show="!userForm.firstname.$valid && userForm.firstname.$dirty" class="error-block">First name is required.</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastname" class="col-sm-2 control-label">Last Name</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Last name" ng-model="user.lastname" required />
+                                <p ng-show="!userForm.lastname.$valid && userForm.lastname.$dirty" class="error-block">Last name is required.</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="name" class="col-sm-2 control-label">Username</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="username" name="username" placeholder="Username" ng-model="user.username" required />
+                                <p ng-show="!userForm.username.$valid && userForm.username.$dirty" class="error-block">Username is required.</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="password" class="col-sm-2 control-label">Password</label>
+                            <div class="col-sm-3">
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Password" ng-model="user.password" required />
+                                <p ng-show="!userForm.password.$valid && userForm.password.$dirty" class="error-block">Password is required.</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="name" class="col-sm-2 control-label">Role</label>
+                            <div class="col-sm-3">
+                                <div class="c-select">
+                                    <select id="role" name="role" class="select2" ng-model="user.role">
+                                        <option value="0">Role...</option>
+                                        <option ng-repeat="(key,value) in userRoles" value="{{key}}" ng-selected="{{key == user.role}}">{{value | camelcase}}</option>
+                                    </select>
+                                    <p ng-show="roleIsValid" class="error-block">Role is required.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email" class="col-sm-2 control-label">Email</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="email" name="email" placeholder="Email" ng-model="user.email" required />
+                                <p ng-show="!userForm.email.$valid && userForm.email.$dirty" class="error-block">Email is required.</p>
+                            </div>
+                        </div>
+                        <div id="addressWrapper">
+                            <div class="form-group">
+                                <label for="address" class="col-sm-2 control-label">Address</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" id="address" name="first" placeholder="Address" ng-model="user.address" required />
+                                    <p ng-show="!userForm.address.$valid && userForm.address.$dirty" class="error-block">Address is required.</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4 col-sm-offset-2">
+                                    <input type="text" class="form-control" id="address2" name="address2" placeholder="Address Line 2" ng-model="user.address2" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-3 col-sm-offset-2">
+                                    <input type="text" class="form-control" id="city" name="city" placeholder="City" ng-model="user.city" 
+                                        required />
+                                    <p ng-show="!userForm.city.$valid && userForm.city.$dirty" class="error-block">City is required.</p>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="c-select">
+                                        <select id="state" name="state" class="select2" ng-model="user.state">
+                                            <option value="0">State...</option>
+                                            <option ng-repeat="(key,value) in states" value="{{key}}" ng-selected="{{key == user.state}}">{{value}}</option>
+                                        </select>
+                                        <p ng-show="stateIsValid" class="error-block">State is required.</p>
+                                    </div>
+                                    </div>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" id="zipcode" name="zipcode" placeholder="Zip Code" ng-model="user.zipcode" required ng-minlength="5" /> 
+                                    <p ng-show="!userForm.zipcode.$valid && userForm.zipcode.$dirty" class="error-block">Zipcode is required.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="pieces" class="col-sm-2 control-label">Phone</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="phone" name="phone" placeholder="Phone" ng-pattern="/^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/" ng-model="user.phone" />
+                                <p ng-show="userForm.phone.$error.pattern" class="error-block">Phone number must include the area code.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+
+</div>

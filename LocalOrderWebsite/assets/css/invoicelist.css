@@ -1,0 +1,19 @@
+
+#invoiceList { }
+
+#invoiceList #form textarea { max-width: 100%; }
+
+#invoiceList #form .dp-wrapper { position: relative; }
+#invoiceList #form .dp-wrapper .dp-edit { display: block; margin-top: 5px; cursor: pointer; }
+#invoiceList #form .dp-wrapper .datepicker { display: none; position: absolute; right: 30px; top: -15px; z-index: 11; }
+#invoiceList #form .select2 { width: 100%; }
+
+#invoiceList #invoiceListTable .navigation { padding-right: 20px; }
+#invoiceList #invoiceListTable .navigation .total-records { text-align: right; align-self: flex-end; color: #555; }
+#invoiceList #invoiceListTable .navigation .pagecount-select { margin-top: 10px; text-align: right; color: #555; }
+#invoiceList #invoiceListTable .navigation .pagination { margin: 10px 0px 0px; }
+#invoiceList #invoiceListTable .navigation .pagination .pagecount-select label { display: inline-block; position: relative; top: -10px; }
+#invoiceList #invoiceListTable .navigation .pagination .pagecount-select .c-select { display: inline-block; margin: 5px 0px 0px;}
+#invoiceList #invoiceListTable .navigation .pagination .pagecount-select .c-select { width: 55px; }
+
+#invoiceList #invoiceListTable table .invoice_number { width: 160px; }

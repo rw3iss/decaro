@@ -1,0 +1,8 @@
+.home-actions { display: block; width: 100%; margin: 0 auto; text-align: center; }
+.home-actions .button-container { margin: 10px auto; }
+
+body ng-view #manage { width: 100%; text-align: center; }
+
+body ng-view #manage #page-content .home-actions { margin-top: 70px; }
+
+#manage #page-content { display: block !important; }

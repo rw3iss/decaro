@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+</head>
+<body>
+<?php 
+	$order = $data['order'];
+	$clientStation = $data['clientStation'];
+	$orderDate = new DateTime($order->date_created);
+?>
+
+<style>
+	<?php echo file_get_contents(getcwd() . '/assets/css/responsive.css'); ?>
+	<?php echo file_get_contents(getcwd() . '/assets/css/orderpdf.css'); ?>
+</style>
+
+<div class="container-fluid page" id="orderpdf">
+
+  	<div id="page-content">
+
+  		<div id="header" class="row clearfix">
+  			<div id="logo"><img src="/assets/img/decaro_logo.jpg" /></div>
+  			<div id="address">22 McClellan St.<br/>Newark, NJ 07114</div>
+  			<div id="phone">(973) 242-0777<br/>Fax (973) 242-1272</div>
+  			<div id="meta">
+  				<div class="date">
+  					Date: <?php echo $orderDate->format('m/d/y'); ?> 
+		  		</div>
+		  		<div class="order-number">
+		  			Order #: <?php echo $order->order_number; ?>
+		  		</div>
+	  			<?php if($order->customer_number != '') { ?>
+	  			<div class="customer-reference">
+		  			(<?php echo $order->customer_number; ?>)
+					</div>
+					<?php } ?>
+  			</div>
+  		</div>
+
+	  	<div class="row clearfix" id="addresses">
+	  		<div class="address" id="shipper">
+	  			<div class="label">Shipping Address</div>
+	  		<?php 
+		  		if($order->shipper_enabled) {
+	  				echo $order->shipper_name . '<br/>';
+	  				echo $order->origin_address . '<br/>';
+					echo $order->origin_city . ', ' . $order->origin_state . ' ' . $order->origin_zipcode;
+	  			} 
+	  		?>
+	  		</div>
+
+	  		<div class="address" id="consignee">
+	  			<div class="label">Consignee Address</div>
+	  		<?php
+			    if($order->destination_name != '') {
+			    	echo $order->destination_name . '<br/>';
+			    }
+			    
+			    echo $order->destination_address . '<br/>';
+			    echo $order->destination_city . ', ' . $order->destination_state . ' ' . $order->destination_zipcode;
+	  		?>
+	  		</div>
+	  	</div>
+
+		<div class="row clearfix" id="items-header">
+	  		<div id="pieces"># Pieces</div>
+	  		<div id="description" class="description">Description</div>
+	  		<div id="weight">Weight</div>
+	  		<div id="charges">Charges</div>
+	  		<div id="payment_type">How Shipped</div>
+	  	</div>
+
+	  	<div class="row clearfix" id="items">
+	  		<div id="pieces"><?php echo $order->pieces; ?>&nbsp;</div>
+	  		<div class="description"><?php echo $string = preg_replace('~\R~u', "<br/>", $order->description); ?></div>
+	  		<div id="weight"><?php echo $order->weight; ?>&nbsp;</div>
+	  		<div id="charges"><?php echo $order->pod_total; ?>&nbsp;</div>
+	  		<div id="payment_type"><div><?php echo $order->payment_type; ?></div>
+					<?php	if($order->payment_type == 'thirdparty') { ?>
+					<div id="thirdparty-address">
+					<?php echo $order->third_party_address;
+						if(!empty($order->third_party_address2)) {
+						    echo  $order->third_party_address2 . '<br/>';
+						}
+				    echo $order->third_party_city . ', ' . $order->third_party_state . ' ' . $order->third_party_zipcode;
+					?>
+					</div>
+					<?php } ?>
+		    </div>
+	  	</div>
+
+	  	<div class="row" id="bottom">
+
+		  	<div class="row clearfix" id="sign">
+		  		<span class="label">Please sign and print:</span><span class="line" id="signature"></span>
+		  		<span class="label">Date:</span><span class="line" id="date"></span>
+		  	</div>
+
+		  	<div class="text-and-total">
+		  		<div id="liability">
+			  		<div class="line1">
+			  			<div class="left">
+				  		Liability, including negligence is limited to the sum of $50.00 per shipment, unless a greater valuation shall be paid for or agreed to be paid in writing to DeCaro Trucking prior to shipping.
+				  		<br/>DeCaro Trucking will not be responsible for damages due to poor packing by supplier.
+				  		</div>
+				  		<div class="right">
+				  			Non-negotiable
+				  		</div>
+			  		</div>
+			  		<div class="line2">
+			  			It is mutually agreed that the good herein described are accepted in apparent good order (except as noted) for transportation as specified herein, subject to giverning classifications and tariffs in effect as of the date hereof which are filled in accordance with law. Said classifications and tariffs, copies of which are available for inspected by the parties hereto , are hereby incorporated into and made part of this contract.
+			  		</div>
+		  		</div>
+		  		<div id="total">
+			  		<div class="label">Total:</div>
+			  		<div class="price">
+					  	<?php
+					  		setlocale(LC_MONETARY, 'en_US.UTF-8');
+
+					    	$moneyString = $order->pod_total;//money_format('%.2n', str_replace('$','',str_replace(',','',$order->pod_total)));
+				        	echo $moneyString;
+					  	?>
+				  	</div>
+				  </div>
+		  	</div>
+
+		  	<div id="ccc">"Clean - Courteous - Correct"</div>
+		  </div>
+
+	</div>
+
+</div>
+</body>
+</html>

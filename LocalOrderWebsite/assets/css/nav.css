@@ -1,0 +1,41 @@
+/* global standards */
+.float-left { float: left; }
+
+.bg-footer { position: absolute; z-index: 11; bottom: 0px; left: 0px; width: 100%; }
+.bg-footer a { color: #778; margin: 0px 5px; }
+
+
+/* global navigation */
+nav { position: fixed; z-index: 99; top: 0px; left: 0px; width: 100%; min-width: 400px; height: 60px; background: #fff; min-width: 769px; z-index: 99; box-shadow: 1px 1px 5px #aaa; 
+background: rgb(255,255,255); /* Old browsers */
+background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(229,229,229,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(100%,rgba(229,229,229,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(229,229,229,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(229,229,229,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(229,229,229,1) 100%); /* IE10+ */
+background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(229,229,229,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5',GradientType=0 ); /* IE6-9 */
+}
+nav > ul { display: flex; flex-direction: row; align-items: stretch; }
+nav > ul > li { display: flex; position: relative; }
+nav > ul > li img { height: 60px; display: block; }
+nav > ul > li > a { display: flex; flex-direction: column; justify-content: center; padding: 0 24px; color: #fff; 
+  color: #777; font-size: 1.3em; outline: none; }
+nav > ul > li:hover > a { cursor: pointer; background: #f5f5f5; color: #000; }
+
+nav > ul > li > span { display: flex; flex-direction: column; justify-content: center; padding: 0 24px; color: #fff; 
+ color: #555; font-size: 1em; outline: none; whitespace: nowrap; }
+
+nav > ul > li.logo { margin-right: 25px; }
+nav > ul > li.current-user { position: absolute; right: 10px; top: 12px; text-align: right; }
+
+nav > ul > li > span > a { color: #405a74; cursor: pointer; font-size: .9em; display: inline; }
+
+/* global secondary nav */
+nav > ul > li > ul { display: none; position: absolute; top: 100%; padding: 12px 0px 12px 0px; bottom: 0px; left: 0px; 
+	background: #fff; box-shadow: 1px 1px 7px rgba(100,100,100,.5); border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; }
+nav > ul > li:hover > ul { display: table; } 
+nav > ul > li > ul > li { display: table; }
+nav > ul > li > ul > li a { display: table-cell; vertical-align: middle; padding: 0px 24px; height: 36px; min-width: 160px; outline: none; }
+nav > ul > li > ul > li:hover a { cursor: pointer; background: #f5f5f5; color: #000; }
+

@@ -1,0 +1,44 @@
+
+#editinvoice { }
+
+#editinvoice #meta .client-name { display: block; }
+
+#editinvoice .form textarea { max-width: 100%; }
+
+#editinvoice .form .dp-wrapper { position: relative; }
+#editinvoice .form .dp-wrapper .dp-edit { display: block; margin-top: 5px; cursor: pointer; }
+#editinvoice .form .dp-wrapper .datepicker { display: none; position: absolute; right: 30px; top: -15px; z-index: 11; }
+#editinvoice .form .select2 { width: 100%; }
+
+#editinvoice .form .invoice-number { margin-top: 7px; }
+
+#editinvoice #recent-orders .none-found,
+#editinvoice #payments .none-found { color: #555; }
+
+#editinvoice .form .required:before { content: "*"; color: red; position: relative; left: -5px; top: 5px; font-size: 14pt; }s
+
+#editinvoice .form .form-group label { margin-bottom: 5px; }
+
+#editinvoice .form .date-choose { width: 100%; }
+#editinvoice .form .date-container { display: block; float: left; width: 200px; max-width: 200px; }
+#editinvoice .form .date-container + * { margin-left: 10px; }
+#editinvoice .form .date-choose .date-container .form-control,
+#editinvoice .form .date-due-by .date-container .form-control { width: 100%; }
+
+#editinvoice .form .no-orders label { margin-bottom: 10px; color: #F25F49; font-size: 1.2em; }
+
+#editinvoice .form .select-orders .options { margin-bottom: 10px; }
+#editinvoice .form .select-orders .options .button-container + * { margin-left: 10px; }
+
+#editinvoice .form .select-orders tr:hover { background: #edf0F6; }
+#editinvoice .form .select-orders tr:active td { position: relative; top: 1px; }
+#editinvoice .form .select-orders tr.checked { background: #DCEEFA; }
+#editinvoice .form .select-orders tr.checked:hover { background: #fCeEeA; }
+
+#editinvoice #invoiceForm .section-content .c-select { width: 400px; }
+#editinvoice #invoiceForm .section-content .data-table.select-orders { margin-bottom: 0px; border-top: 1px solid #ddd; box-shadow: 0px 0px 10px #ccc; }
+
+#editinvoice .form .form-group .invoice-total { color: #555; margin-top: 7px; }
+
+#editinvoice .form .form-group label[for=orders],
+#editinvoice .form .form-group label[for=orders-select] { margin-bottom: 10px; }

@@ -1,0 +1,153 @@
+
+<link rel="stylesheet" href="/assets/css/orderlist.css" media="screen">
+
+<div class="container-fluid page listing" id="orderlist">
+
+	<div class="row" id="page-header">
+		<div class="header col-md-12">
+	    	<h2>Orders</h2>
+	    </div>
+	</div>
+  	
+  	<div class="row" id="page-content">
+
+  	  	<!-- Order Filter -->
+	    <div class="col-md-2 sidebar" id="filter">
+	    	
+	    	<form class="form" id="orderFilterForm" role="form">
+	  		  <h4>Find Orders</h4>
+
+			  <div class="form-group">
+			    <label for="orderNumber" class="control-label">Order #</label>
+			    <input type="text" class="form-control" id="orderNumber" placeholder="Order #" ng-model="filter.order_number" ng-change="filterChanged()">
+			  </div>
+
+			  <div class="form-group">
+			  	<label for="client" class="control-label">Client</label>
+			    <div class="c-select" layout-fill>
+				    <select id="client" class="select2" ng-change="filterChanged()" ng-model="filter.client_id">
+	                    <option value="0" ng-selected="{{filter.client_id == 0}}">Select...</option>
+	                    <option ng-repeat="c in clients" value="{{c.id}}" ng-selected="{{c.name == filter.client_id}}">{{c.name}}</option>
+	                </select>
+                </div>
+			  </div>
+
+			  <div class="form-group"> 
+                <label for="datefrom" class="control-label">Date From</label>
+                <div class="datetimepicker" id="datefrom" data-date-format="M/D/YYYY">
+                    <input type="text" id="filterDateFromInput" class="form-control" name="datefrom" ng-model="filter.datefrom" placeholder="Date From" ng-change="filterChanged()" ng-click="selectDateFrom()">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                </div>
+              </div>
+
+			  <div class="form-group"> 
+                <label for="dateto" class="control-label">Date To</label>
+                <div class="datetimepicker" id="dateto" data-date-format="M/D/YYYY">
+                    <input type="text" id="filterDateToInput" class="form-control" name="dateto" ng-model="filter.dateto" placeholder="Date To" ng-change="filterChanged()" ng-click="selectDateTo()">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                </div>
+              </div>
+
+			  <div class="form-group">
+			  	<label for="client" class="control-label">Status</label>
+				  	<div class="c-select">
+				      <select id="status" name="status" class="select2" ng-change="filterChanged()" ng-model="filter.status">
+				      	<option value="ALL">All</option>
+				      	<option value="INCOMPLETE">Incomplete</option>
+				      	<option value="COMPLETE">Complete</option>
+				      </select>
+			      </div>
+			  </div>
+
+			  <div class="form-group">
+			  	<label for="client" class="control-label">Sort By</label>
+				  	<div class="c-select">
+				      <select id="sort" name="sort" class="select2" ng-change="filterChanged()" ng-model="filter.sort">
+				      	<option value="ALL">All</option>
+				      	<!--option value="INCOMPLETE">Incomplete</option-->
+				      	<!--option value="COMPLETE">Complete</option-->
+				      	<!--option value="client.name">Name</option-->
+				      	<option value="date_created">Date Created</option>
+				      </select>
+			      </div>
+			  </div>
+
+			  <div class="form-group">
+			  	<button id="clear" class="col-md-offset-1 btn btn-default btn-sm" ng-click="resetFilter()">Reset Filter</button>
+			  </div>
+
+			</form>
+			  
+    	</div>
+
+    	<!-- Order List -->
+	    <div class="col-md-10 content list-container" id="orderListTable">
+
+			<div ng-show="loading" class="loading">
+				<img src="/assets/img/loader2.gif" />
+			</div>
+
+			<div ng-show="!loading">
+
+			    <div class="navigation">
+			    	<div layout="row" lauyout-fill>
+			    		<div flex>
+							<button id="clear" class="btn btn-default btn-sm" ng-click="createNewOrder()">Create a new Order</button>
+						</div>
+						<div flex class="total-records">{{totalRecordCount}} orders found.</div>
+			    	</div>
+
+			    	<div class="pagination" layout="row" layout-fill>
+						<dir-pagination-controls flex boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="/partial/template.pagination.html"></dir-pagination-controls>
+						
+						<div ng-show="filterResults.length > 0" flex class="pagecount-select">
+							<label for="resultsPerPage">Results per page:&nbsp;</label>
+							<div class="c-select">
+								<select id="resultsPerPage" ng-change="pageChangeHandler()" ng-model="pageSize">
+									<option value="10">10</option>
+									<option value="25">25</option>
+									<option value="50">50</option>
+									<option value="100">100</option>
+								</select>
+							</div>
+						</div>
+				    </div>
+
+		    	</div>
+
+			    <table class="table table-striped data-table">
+				  <thead>
+				  	<tr>
+					  	<th>#</th>
+					  	<th><span class="client" ng-click="sortResults('client.name')" ng-class="{true: 'selected', false:''}[sortBy == 'client']">Client Name</span></th>
+					  	<th>Date Created</th>
+					  	<th>Ready Time</th>
+					  	<th>Total</th>
+					  	<th>Status</th>
+					  	<th>Edit</th>
+				  	</tr>
+				  </thead>
+				  <tbody>
+				   <!--tr ng-repeat="o in filterResults" ng-click="gotoOrder(o.id)"--> 
+				   <tr dir-paginate="o in filterResults | itemsPerPage: pageSize" total-items="totalRecordCount" current-page="currentPage" ng-click="gotoOrder(o.id)">
+				  		<td>{{o.order_number}}</td>
+				  		<td>{{o.client.name}}</td>
+				  		<td>{{o.date_created | formatDate}}</td>
+				  		<td>{{o.ready_time | formatDate}}</td>
+				  		<td>{{(o.pod_total | formatPrice) || "-"}}</td>
+				  		<td>{{o.status | camelcase}}</td>
+				  		<td><a ng-click="gotoOrder(o.id)" class="btn btn-default btn-xs">Edit</a></td>
+				  	</tr>
+				  	<tr ng-show="filterResults.length == 0">
+				  		<td colspan="8">No results found.</td>
+			  		</tr>
+				  </tbody>
+				</table>
+
+			</div>
+
+	    </div>
+
+	</div>
+
+</div>

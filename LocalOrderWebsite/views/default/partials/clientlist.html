@@ -1,0 +1,93 @@
+
+<link rel="stylesheet" href="/assets/css/clientlist.css" media="screen">
+
+<div class="container-fluid page listing" id="clientlist">
+
+	<div class="row" id="page-header">
+		<div class="header col-md-12">
+	    	<h2>Clients</h2>
+	    </div>
+	</div>
+	
+	<div class="row" id="page-content">
+
+	  	<!-- Client Filter -->
+	    <div class="col-md-2 sidebar" id="filter">
+
+	    	<form class="form" id="clientlistForm" role="form">
+			  
+	  		  <h4>Find Clients</h4>
+
+			  <div class="form-group">
+			    <label for="clientName" class="control-label">Name</label>
+			    <input type="text" class="form-control" id="clientName" placeholder="Client Name" ng-model="filter.clientName" ng-change="filterChanged()">
+			  </div>
+
+			  <!--div class="form-group">
+				<label for="client" class="control-label">Sort By</label>
+					<div class="c-select">
+					<select id="sort" name="sort" class="select2" ng-change="filterChanged()" ng-model="filter.sort">
+						<option value="name">Name</option>
+						<option value="date_added">Date added</option>
+					</select>
+				</div>
+			  </div-->
+
+			  <div class="form-group">
+			  	<button id="clear" class="col-md-offset-1 btn btn-default btn-sm" ng-click="resetFilter()">Reset Filter</button>
+			  </div>
+			</form>
+			  
+		</div>
+
+		<!-- Client List -->
+	    <div class="col-md-10 content" id="clientListTable">
+
+		    <div class="navigation">
+		    	<div layout="row" lauyout-fill>
+		    		<div flex>
+						<button id="clear" class="btn btn-default btn-sm" ng-click="createNewClient()">Create a new Client</button>
+					</div>
+					<div flex class="total-records">{{totalRecordCount}} clients found.</div>
+		    	</div>
+
+		    	<div class="pagination" layout="row" layout-fill>
+					<dir-pagination-controls flex boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="/partial/template.pagination.html"></dir-pagination-controls>
+					<div ng-show="filterResults.length > 0" flex class="pagecount-select">
+						<label for="resultsPerPage">Results per page:&nbsp;</label>
+						<div class="c-select">
+							<select id="resultsPerPage" ng-change="pageChangeHandler(newPageNumber)" ng-model="pageSize">
+								<option value="10">10</option>
+								<option value="25">25</option>
+								<option value="50">50</option>
+								<option value="100">100</option>
+							</select>
+						</div>
+					</div>
+			    </div>
+
+		    </div>
+
+		    <table class="table table-striped data-table">
+			  <thead>
+			  	<th>#</th>
+			  	<th>Client Name</th>
+			  	<th># of Stations</th>
+			  	<th>Edit</th>
+			  </thead>
+			  <tbody> 
+			  	<tr dir-paginate="c in filterResults | itemsPerPage: pageSize" total-items="totalRecordCount" current-page="currentPage" ng-click="gotoClient(c.id)" class="client-row">
+			  		<td>{{c.id}}</td>
+			  		<td class="clientname">{{c.name}}</td>
+			  		<td class="stationcount">{{c.client_stations.length}}</td>
+			  		<td><a ng-click="gotoClient(c.id)" class="btn btn-default btn-xs">Edit</a></td>
+			  	</tr>
+			  	<tr ng-show="filterResults.length == 0">
+			  		<td colspan="8">No results found.</td>
+		  		</tr>
+			  </tbody>
+			</table>
+	    </div>
+	</div>
+
+</div>

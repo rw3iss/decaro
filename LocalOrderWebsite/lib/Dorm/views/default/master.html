@@ -1,0 +1,9 @@
+<template name="master">
+
+    {{#if currentUser}}
+      {{> yield}}
+    {{else}} 
+      {{> logged_out}}
+    {{/if}}
+
+</template>

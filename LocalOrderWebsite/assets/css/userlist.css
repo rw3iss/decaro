@@ -1,0 +1,15 @@
+
+#userlist { }
+
+#userlist #meta { position: fixed; top: 0px left: 0px; z-index: 9; height: 100%; max-width: 250px; 
+	background: #eee; padding: 90px 15px 20px 0px; text-align: right; border-right: 1px solid #ddd; }
+#userlist #meta .button-container button { display: block; float: right; margin: 10px 0px 5px; }
+#userlist #meta .button-container { display: block; clear: both; width: 100%; text-align: right; }
+
+#userlist #form textarea { max-width: 100%; }
+
+#userlist #form .dp-wrapper { position: relative; }
+#userlist #form .dp-wrapper .dp-edit { display: block; margin-top: 5px; cursor: pointer; }
+#userlist #form .dp-wrapper .datepicker { display: none; position: absolute; right: 30px; top: -15px; z-index: 11; }
+#userlist #form .select2 { width: 100%; }
+

@@ -1,0 +1,11 @@
+
+#edituser #meta .user-name { display: block; }
+
+#edituser .form textarea { max-width: 100%; }
+
+#edituser .form .dp-wrapper { position: relative; }
+#edituser .form .dp-wrapper .dp-edit { display: block; margin-top: 5px; cursor: pointer; }
+#edituser .form .dp-wrapper .datepicker { display: none; position: absolute; right: 30px; top: -15px; z-index: 11; }
+#edituser .form .select2 { width: 100%; }
+
+#edituser .form #thirdPartyAddressWrapper { margin-top: 10px; }

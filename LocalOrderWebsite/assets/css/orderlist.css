@@ -1,0 +1,24 @@
+
+#orderlist { }
+
+#orderlist #meta { position: fixed; top: 0px left: 0px; z-index: 9; height: 100%; max-width: 250px; 
+	background: #eee; padding: 90px 15px 20px 0px; text-align: right; border-right: 1px solid #ddd; }
+#orderlist #meta .button-container button { display: block; float: right; margin: 10px 0px 5px; }
+#orderlist #meta .button-container { display: block; clear: both; width: 100%; text-align: right; }
+
+#orderlist .form textarea { max-width: 100%; }
+
+#orderlist .form .dp-wrapper { position: relative; }
+#orderlist .form .dp-wrapper .dp-edit { display: block; margin-top: 5px; cursor: pointer; }
+#orderlist .form .dp-wrapper .datepicker { display: none; position: absolute; right: 30px; top: -15px; z-index: 11; }
+#orderlist .form .select2 { width: 100%; }
+
+#orderlist #orderListTable .navigation { padding-right: 20px; }
+#orderlist #orderListTable .navigation .total-records { text-align: right; align-self: flex-end; color: #555; }
+#orderlist #orderListTable .navigation .pagecount-select { margin-top: 10px; text-align: right; color: #555; }
+#orderlist #orderListTable .navigation .pagination { margin: 10px 0px 0px; }
+#orderlist #orderListTable .navigation .pagination .pagecount-select label { display: inline-block; position: relative; top: -10px; }
+#orderlist #orderListTable .navigation .pagination .pagecount-select .c-select { display: inline-block; margin: 5px 0px 0px;}
+#orderlist #orderListTable .navigation .pagination .pagecount-select .c-select { width: 55px; }
+
+#orderlist #orderListTable .data-table { margin-top: 5px; }

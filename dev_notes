@@ -1,0 +1,79 @@
+DeCaro todo:
+
+-integrate alert plugin
+
+-add app config class which uses DB/memcache
+ -ConfigRepository: 
+   __construct(ConfigMapper):
+     -get from memcache or DB lookup 
+   get($key)
+   set($key, $value)
+
+
+-add local browser cache for objects, which service should use (is there a plugin which will cache api queries?)
+ -cache for only up to 5-10 minutes?
+
+
+============================
+
+Questions:
+
+-Do clients have an email we should ask for?
+
+============================
+
+
+Use Celery-php for running rabbitmq jobs:
+https://github.com/gjedeer/celery-php
+http://www.celeryproject.org/
+
+----------
+Scripts to make:
+
+Problems I need to solve:
+
+-Router which will check authentication and respond with a different path if failed
+-A scheme which can load a single page which uses partials on the server, and then also allow the partials to be loaded/replaced from the frontend
+
+-Manage DB and 'active records':
+  -a scheme which will create the SQL schema, model class file, and possible a model form (below):
+
+-Customizable model form creator
+ -edit all fields defined in model
+ -models should be encapsulated in a "ModelEditModel" which exposes which fields will be editable and viewable (all by default)
+ -front-end "skin" should be customizeable 
+
+-------
+Model stuff:
+-create an abstract Address class
+-unserialize a json model from request
+
+----
+App common:
+
+-helpers file with:
+  -current date: now()
+  -debug()
+
+
+MODEL / SCHEMA / FORM CREATOR:
+
+-define model properties 
+<model>
+ <properties>
+  <property name="id" required="true" validation="(:number) || regex" />
+ </properties>
+</model>
+
+
+
+Service:
+
+
+/service/store/ObjectType/id (GET | POST | PUT | DELETE | PATCH)
+-ObjectController = get_object(), post_object() etc
+  -does the translation of the post to the object type, throws exception if it can't be transformed (ie. object doesn't exist)
+  -validates the object based on the schema (in memory)
+  -save the object in ObjectRepository
+    -ObjectMapper stores the object in the database
+

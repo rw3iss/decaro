@@ -1,0 +1,307 @@
+$itemPadding: 15px;
+
+html, body {
+	height: auto;
+	font-size: 16px;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+#page-content {
+	position: relative;
+	font-family: Arial;
+	max-width: 1160px;
+	min-height: 100%;
+	height: 1200px;
+	margin: 40px;
+
+	#header {
+		display: flex;
+		flex-wrap: nowrap;
+
+		> div {
+			display: block;
+			float: left;
+			flex: 1;
+			font-size: 1.2em;
+		}
+
+		#logo {
+			margin-right: $itemPadding*4;
+		}
+
+		#address,
+		#phone,
+		#meta {
+			display: block;
+			padding: $itemPadding;
+			font-weight: bold;
+		}
+
+		#meta {
+			float: right;
+			text-align: right;
+			min-width: 200px;
+			white-space: nowrap;
+		}
+	}
+}
+
+#addresses {
+	width: 100%;
+	margin: $itemPadding*2 0 $itemPadding*3 $itemPadding*4;
+	display: flex;
+
+	.address {
+		float: left;
+		flex: 1;
+
+		.label {
+			font-weight: bold;
+			font-size: 1.2em;
+			margin-bottom: 5px;
+		}
+	}
+
+}
+
+#meta {
+	margin-left: 150px;
+	margin-top: 0px;
+	height: 15px;
+}
+
+#items-header {
+	margin: $itemPadding 0 0;
+
+	> div {
+		font-weight: bold;
+		text-align: center;
+		border-left: 1px solid #555;
+		white-space: nowrap;
+		display: flex;
+		justify-content: center;
+		padding: 5px 10px;
+		background: black;
+		color: white;
+
+		&:last-child {
+			border-right: 1px solid #555;
+		}
+	}
+}
+
+#items-header,
+#items {
+	display: flex;
+	flex-wrap: nowrap;
+
+	> div {
+		float: left;
+	}
+
+	#pieces {
+		width: 100px;
+		text-align: center;
+	}
+
+	.description {
+		flex: 3.5;
+		min-width: 200px;
+	}
+
+	#weight {
+		width: 100px;
+		text-align: center;
+	}
+
+	#charges {
+		width: 100px;
+		text-align: center;
+	}
+
+	#payment_type {
+		display: block;
+		text-align: center;
+		width: 200px;
+
+		> div {
+		 	text-align: center; 
+		}
+	}
+}
+
+#items {
+	> div {
+		height: 600px;
+		padding: 10px 10px;
+		font-size: .85em;
+		border-left: 1px solid black;
+		border-bottom: 1px solid black;
+
+		&:last-child {
+			border-right: 1px solid black;
+		}
+	}
+
+	#payment_type {
+		text-align: right;
+	}
+}
+
+#bottom {
+	position: absolute;
+	bottom: 0px;
+	font-size: 1.2em;
+
+	#sign {
+		margin-top: $itemPadding*4;
+		display: flex;
+		flex-wrap: nowrap;
+
+		.line {
+			flex: 1;
+			border-bottom: 1px solid black;
+		}
+
+		#signature {
+			flex: 3;
+		}
+	}
+
+	.text-and-total {
+		display: flex;
+		flex-wrap: nowrap;
+		position: relative;
+		margin: $itemPadding*2 0 $itemPadding;
+		border: 1px solid block;
+
+	  #liability {
+	  	flex: 1;
+	  	font-size: .65em;
+	  	border: 1px solid black;
+
+	  	> div {
+	  		padding: $itemPadding/2;
+	  		flex: 1;
+	  	}
+
+	  	.line1 {
+	  		display: flex;
+	  		flex-wrap: nowrap;
+	  		text-transform: uppercase;
+	  		border-bottom: 1px solid black;
+
+	  		.left {
+	  		}
+
+	  		.right {
+	  			display: flex;
+	  			align-items: center;
+	  			justify-content: center;
+	  			font-size: 1.5em;
+	  			font-weight: bold;
+	  			white-space: nowrap;
+	  			padding: $itemPadding/2 $itemPadding $itemPadding/2 $itemPadding;
+	  		}
+	  	}
+	  }
+
+		#total {
+			flex: .25;
+			border: 1px solid black;
+			border-left: none;
+			text-align: right;
+			align-items: center;
+			min-width: 200px;
+			display: flex;
+			flex-wrap: nowrap;
+
+			.label {
+	  		flex: 1;
+				font-weight: bold;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				background-color: #ddd;
+				height: 100%;
+				padding: 0 5px;
+				border-right: 1px solid black;
+			}
+
+			.price {
+	  		flex: 2;
+	  		font-size: 1.2em;
+	  		text-align: center;
+				font-weight: bold;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				margin-left: $itemPadding;
+			}
+		}
+	}
+
+	#ccc {
+		width: 100%;
+		text-align: center;
+		font-weight: bold;
+		text-transform: uppercase;
+		margin-bottom: $itemPadding;
+	}
+}
+
+
+@media print {
+	@page {
+	    size: auto;   /* auto is the initial value */
+	    margin: 0;  /* this affects the margin in the printer settings */
+	}
+
+	html, body {
+		margin: 0;
+		padding: 0;
+	}
+
+	#page-content {
+		#header {
+			> div {
+				font-size: 1em;
+			}
+
+			#logo {
+				margin-right: $itemPadding;
+
+				img {
+					height: auto;
+					width: 150px;
+				}
+			}
+
+			#address,
+			#phone {
+				min-width: 190px;
+			}
+
+			#meta {
+				min-width: 250px;
+			}
+		}
+
+		#items-header {
+			> div {
+				color: black;
+				border-top: 1px solid black;
+				border-bottom: 1px solid black;
+				border-left: 1px solid black;
+
+				&:last-child {
+					border-right: 1px solid black;
+				}
+			}
+		}
+	}
+
+}

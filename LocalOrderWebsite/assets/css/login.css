@@ -1,0 +1,6 @@
+#logged-out { color: #333; text-align: center; margin: 20px auto 20px auto; min-width: 300px; max-width: 500px; }
+
+#logged-out .logo { margin: 0 auto; }
+
+#logged-out input { color: #333; width: 100%; margin: 0 auto; }
+#logged-out .input-group { max-width: 200px; margin: 5px auto 5px auto; }

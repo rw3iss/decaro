@@ -1,0 +1,138 @@
+<html>
+<head>
+	<script type="text/javascript" src="/assets/js/lib/jquery-2.1.1.min.js"></script>
+
+	<script type="text/javascript">
+	function test() {
+		alert("before print");
+	}
+	</script>
+
+</head>
+
+<body>
+<?php 
+	$invoice = $data['invoice'];
+	$client = $data['client'];
+	$clientStation = $data['clientStation'];
+	$invoiceDate = new DateTime($invoice->date_created);
+?>
+
+<style>
+	<?php echo file_get_contents(getcwd() . '/assets/css/responsive.css'); ?>
+	<?php echo file_get_contents(getcwd() . '/assets/css/invoicepdf.css'); ?>
+</style>
+
+<div class="container-fluid page" id="invoicepdf" onbeforeprint="test()">
+
+  	<div id="page-content">
+
+  		<div id="header" class="row clearfix">
+  			<div id="logo"><img src="/assets/img/decaro_logo.jpg" /></div>
+  			<div id="address">22 McClellan St.<br/>Newark, NJ 07114</div>
+  			<div id="phone">(973) 242-0777<br/>Fax (973) 242-1272</div>
+  			<div id="meta">
+  				<div class="date">
+  					Date: <?php echo $invoiceDate->format('m/d/y'); ?> 
+		  		</div>
+		  		<div class="order-number">
+		  			Invoice #: <?php echo $invoice->invoice_number; ?>
+		  		</div>
+  			</div>
+  		</div>
+
+  		<div class="type-header">
+  			INVOICE
+  		</div>
+
+	  	<div class="row clearfix" id="client">
+	  		<span class="label">Client:</span>
+	  		<div class="client-wrapper">
+		  		<div id="name"><?php echo $client->name; ?></div>
+		  		<div id="address">
+			  		<?php
+					    echo $clientStation->address . '<br/>';
+					    if(!empty($clientStation->address2)) {
+					    	echo $clientStation->address2 . '<br/>';
+						}
+						echo $clientStation->city . ', ' . $clientStation->state . ' ' . $clientStation->zipcode;
+						if(!empty($clientStation->phone_number)) {
+							echo '<br/>' . $clientStation->phone_number;
+						}
+			  		?>
+		  		</div>
+		  	</div>
+	  	</div>
+
+	  	<div class="row clearfix" id="orders-header">
+	  		<div class="order-number">Order #</div>
+	  		<div class="date">Date</div>
+	  		<div class="pieces">Pieces</div>
+	  		<div class="weight">Weight</div>
+	  		<div class="description">Description</div>
+	  		<div class="charges">Charges</div>
+	  	</div>
+
+	  	<div class="row clearfix" id="orders" style="page-break-after:auto;">
+	  		<?php
+	  			// multiple the orders for testing:
+
+		  		//$orders = array();
+		  		//$total = 100;
+		  		//$c = 0;
+		  		//while($c < $total) {
+		  		//	foreach($invoice->orders as $order) {
+		  		//		array_push($orders, $order);
+		  	//			$c++;
+		  		//	}
+		  		//} 
+		  		$orders = $invoice->orders;
+
+	  			foreach($orders as $order) {
+	  		?>
+	  			<div class="order clearfix">
+			  		<div class="order-number"><?php echo $order->order_number; ?>&nbsp;</div>
+			  		<div class="date"><?php $od = new DateTime($order->date_created); echo $od->format('m/d/Y'); ?>&nbsp;</div>
+			  		<div class="pieces"><?php echo $order->pieces; ?>&nbsp;</div>
+			  		<div class="weight"><?php echo $order->weight; ?>&nbsp;</div>
+			  		<div class="description"><?php echo $order->description; ?></div>
+			  		<div class="charges"><?php echo $order->pod_total; ?>&nbsp;</div>
+	  			</div>
+
+  				<!-- div class="onlyprint">Order #: <?php echo $invoice->invoice_number; ?></div-->
+	  		<?php
+	  			}
+	  		?>
+	  	</div>
+
+	  	<div id="bottom" style="page-break-inside:avoid;">
+		  	<div style="page-break-inside:avoid;">
+			  	<div class="row" id="total" style="page-break-inside:avoid;">
+		  			<span class="label">Total:</span>
+		  			<div class="total">
+					  	<?php
+					  		//setlocale(LC_MONETARY, 'en_US.UTF-8');
+					    	//$moneyString = money_format('%.2n', 123.45); //parse_float(str_replace('$','',str_replace(',','',$invoice->total))));
+					    	$moneyString = str_replace('$','',str_replace(',','',$invoice->total));
+					    	$moneyString = '$' . number_format(floatval($moneyString), 2); 
+					    	echo $moneyString;
+					  	?>		
+						</div>
+			  	</div>
+
+			  	<div class="row" id="liability" style="page-break-inside:avoid;">
+			  		<div class="due">Payment due within 30 days of invoice date</div>
+			  		<div class="text">
+			  			Liability, including negligence, is limited to the sum of $50.00 per shipment, unless a great valuation shall be paid for or agreed to be paid in writing to DeCaro Trucking prior to shipping.
+			  			<div class="bold">DeCaro Trucking will not be responsible for damages due to poor packaging by shipper.</div>
+			  		</div>
+			  	</div>
+		  	</div>
+	  	</div>
+	</div>
+
+</div>
+
+
+</body>
+</html>

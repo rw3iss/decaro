@@ -1,0 +1,214 @@
+html, body {
+  height: auto;
+  font-size: 16px; }
+
+* {
+  box-sizing: border-box; }
+
+#page-content {
+  position: relative;
+  font-family: Arial;
+  max-width: 1160px;
+  min-height: 100%;
+  height: 1200px;
+  margin: 40px; }
+  #page-content #header {
+    display: flex;
+    flex-wrap: nowrap; }
+    #page-content #header > div {
+      display: block;
+      float: left;
+      flex: 1;
+      font-size: 1.2em; }
+    #page-content #header #logo {
+      margin-right: 60px; }
+    #page-content #header #address,
+    #page-content #header #phone,
+    #page-content #header #meta {
+      display: block;
+      padding: 15px;
+      font-weight: bold; }
+    #page-content #header #meta {
+      float: right;
+      text-align: right;
+      min-width: 200px;
+      white-space: nowrap; }
+
+#addresses {
+  width: 100%;
+  margin: 30px 0 45px 60px;
+  display: flex; }
+  #addresses .address {
+    float: left;
+    flex: 1; }
+    #addresses .address .label {
+      font-weight: bold;
+      font-size: 1.2em;
+      margin-bottom: 5px; }
+
+#meta {
+  margin-left: 150px;
+  margin-top: 0px;
+  height: 15px; }
+
+#items-header {
+  margin: 15px 0 0; }
+  #items-header > div {
+    font-weight: bold;
+    text-align: center;
+    border-left: 1px solid #555;
+    white-space: nowrap;
+    display: flex;
+    justify-content: center;
+    padding: 5px 10px;
+    background: black;
+    color: white; }
+    #items-header > div:last-child {
+      border-right: 1px solid #555; }
+
+#items-header,
+#items {
+  display: flex;
+  flex-wrap: nowrap; }
+  #items-header > div,
+  #items > div {
+    float: left; }
+  #items-header #pieces,
+  #items #pieces {
+    width: 100px;
+    text-align: center; }
+  #items-header .description,
+  #items .description {
+    flex: 3.5;
+    min-width: 200px; }
+  #items-header #weight,
+  #items #weight {
+    width: 100px;
+    text-align: center; }
+  #items-header #charges,
+  #items #charges {
+    width: 100px;
+    text-align: center; }
+  #items-header #payment_type,
+  #items #payment_type {
+    display: block;
+    text-align: center;
+    width: 200px; }
+    #items-header #payment_type > div,
+    #items #payment_type > div {
+      text-align: center; }
+
+#items > div {
+  height: 600px;
+  padding: 10px 10px;
+  font-size: .85em;
+  border-left: 1px solid black;
+  border-bottom: 1px solid black; }
+  #items > div:last-child {
+    border-right: 1px solid black; }
+
+#items #payment_type {
+  text-align: right; }
+
+#bottom {
+  position: absolute;
+  bottom: 0px;
+  font-size: 1.2em; }
+  #bottom #sign {
+    margin-top: 60px;
+    display: flex;
+    flex-wrap: nowrap; }
+    #bottom #sign .line {
+      flex: 1;
+      border-bottom: 1px solid black; }
+    #bottom #sign #signature {
+      flex: 3; }
+  #bottom .text-and-total {
+    display: flex;
+    flex-wrap: nowrap;
+    position: relative;
+    margin: 30px 0 15px;
+    border: 1px solid block; }
+    #bottom .text-and-total #liability {
+      flex: 1;
+      font-size: .65em;
+      border: 1px solid black; }
+      #bottom .text-and-total #liability > div {
+        padding: 7.5px;
+        flex: 1; }
+      #bottom .text-and-total #liability .line1 {
+        display: flex;
+        flex-wrap: nowrap;
+        text-transform: uppercase;
+        border-bottom: 1px solid black; }
+        #bottom .text-and-total #liability .line1 .right {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 1.5em;
+          font-weight: bold;
+          white-space: nowrap;
+          padding: 7.5px 15px 7.5px 15px; }
+    #bottom .text-and-total #total {
+      flex: .25;
+      border: 1px solid black;
+      border-left: none;
+      text-align: right;
+      align-items: center;
+      min-width: 200px;
+      display: flex;
+      flex-wrap: nowrap; }
+      #bottom .text-and-total #total .label {
+        flex: 1;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #ddd;
+        height: 100%;
+        padding: 0 5px;
+        border-right: 1px solid black; }
+      #bottom .text-and-total #total .price {
+        flex: 2;
+        font-size: 1.2em;
+        text-align: center;
+        font-weight: bold;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-left: 15px; }
+  #bottom #ccc {
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 15px; }
+
+@media print {
+  @page {
+    size: auto;
+    /* auto is the initial value */
+    margin: 0;
+    /* this affects the margin in the printer settings */ }
+  html, body {
+    margin: 0;
+    padding: 0; }
+  #page-content #header > div {
+    font-size: 1em; }
+  #page-content #header #logo {
+    margin-right: 15px; }
+    #page-content #header #logo img {
+      height: auto;
+      width: 150px; }
+  #page-content #header #address,
+  #page-content #header #phone {
+    min-width: 190px; }
+  #page-content #header #meta {
+    min-width: 250px; }
+  #page-content #items-header > div {
+    color: black;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    border-left: 1px solid black; }
+    #page-content #items-header > div:last-child {
+      border-right: 1px solid black; } }

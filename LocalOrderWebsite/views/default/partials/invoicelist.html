@@ -1,0 +1,139 @@
+
+<link rel="stylesheet" href="/assets/css/invoicelist.css" media="screen">
+
+<div class="container-fluid page listing" id="invoiceList">
+
+	<div class="row" id="page-header">
+		<div class="header col-md-12">
+	    	<h2>Invoices</h2>
+	    </div>
+	</div>
+	
+	<div class="row" id="page-content">
+
+	  	<!-- Order Filter -->
+	    <div class="col-md-2 sidebar" id="filter">
+
+	    	<form class="form" role="form">
+
+	  		  <h4>Find Invoices</h4>
+
+			  <div class="form-group">
+			  	<label for="client_name" class="control-label">Invoice #</label>
+			    <input type="text" class="form-control" name="invoice_number" id="invoice_number" placeholder="Search" ng-model="filter.invoice_number" ng-change="filterChanged()">
+			  </div>
+
+			  <div class="form-group">
+			  	<label for="client_name" class="control-label">Client Name</label>
+			    <input type="text" class="form-control" name="client_name" id="name" placeholder="Search" ng-model="filter.name" ng-change="filterChanged()">
+			  </div>
+
+			  <div class="form-group"> 
+                <label for="datefrom" class="control-label">Date From</label>
+                <div class="datetimepicker" id="datefrom" data-date-format="M/D/YYYY">
+                    <input type="text" id="filterDateFromInput" class="form-control" name="datefrom" ng-model="filter.datefrom" placeholder="Date From" ng-change="filterChanged()" ng-click="selectDateFrom()">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                </div>
+              </div>
+
+			  <div class="form-group"> 
+                <label for="dateto" class="control-label">Date To</label>
+                <div class="datetimepicker" id="dateto" data-date-format="M/D/YYYY">
+                    <input type="text" id="filterDateToInput" class="form-control" name="dateto" ng-model="filter.dateto" placeholder="Date To" ng-change="filterChanged()" ng-click="selectDateTo()">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                </div>
+              </div>
+
+			  <div class="form-group">
+			  	<label for="status" class="control-label">Status</label>
+                	<div class="c-select">
+				      <select id="status" name="status" class="select2" ng-model="filter.status" ng-change="filterChanged()">
+				      	<option value="ALL">All</option>
+				      	<option value="paid">Paid</option>
+				      	<option value="unpaid">Unpaid</option>
+				      </select>
+				    </div>
+			  </div>
+
+			  <div class="form-group">
+			  	<button id="clear" class="col-md-offset-1 btn btn-default btn-sm" ng-click="resetFilter()">Reset Filter</button>
+			  </div>
+			</form>
+			  
+		</div>
+
+		<!-- Order List -->
+	    <div class="col-md-10 content list-container" id="invoiceListTable">
+			
+			<div ng-show="loading" class="loading">
+				<img src="/assets/img/loader2.gif" />
+			</div>
+
+			<div ng-show="!loading">
+
+			    <div class="navigation">
+			    	<div layout="row" lauyout-fill>
+			    		<div flex>
+							<button id="clear" class="btn btn-default btn-sm" ng-click="createNewInvoice()">Create a new Invoice</button>
+						</div>
+						<div flex class="total-records">{{totalRecordCount}} invoices found.</div>
+			    	</div>
+
+			    	<div class="pagination" layout="row" layout-fill>
+						<dir-pagination-controls flex boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="/partial/template.pagination.html"></dir-pagination-controls>
+
+						<div ng-show="filterResults.length > 0" flex class="pagecount-select">
+							<label for="resultsPerPage">Results per page:&nbsp;</label>
+							<div class="c-select">
+								<select id="resultsPerPage" ng-change="pageChangeHandler()" ng-model="pageSize">
+									<option value="10">10</option>
+									<option value="25">25</option>
+									<option value="50">50</option>
+									<option value="100">100</option>
+								</select>
+							</div>
+						</div>
+				    </div>
+
+		    	</div>
+
+			    <table class="table table-striped data-table">
+				  <thead>
+				  	 <tr>
+					  	<th class="invoice_number">#</th>
+					  	<th class="client">Client Name</th>
+					  	<th>Due By</th>
+					  	<th>Total</th>
+					  	<th>Edit</th>
+					  </tr>
+				  </thead>
+				  <tbody>
+
+				  	<tr ng-repeat="i in filterInvoices(invoices)" ng-click="gotoInvoice(i.id)">
+				  		<td class="invoice_number">{{i.invoice_number}}</td>
+				  		<td class="client">{{i.client.name}}</td>
+				  		<td>{{i.date_due_by | formatDate: 'M/DD/YYYY'}}</td>
+				  		<td><span ng-if="i.total">$</span>{{(i.total || '-')}}</td>
+				  		<td><a ng-click="gotoInvoice(i.id)" class="btn btn-default btn-xs">Edit</a></td>
+				  	</tr>
+
+				   <!--tr ng-repeat="o in filterResults" ng-click="gotoOrder(o.id)"--> 
+				   <tr dir-paginate="i in filterResults | itemsPerPage: pageSize" total-items="totalRecordCount" current-page="currentPage" ng-click="gotoInvoice(i.id)">
+						<td class="invoice_number">{{i.invoice_number}}</td>
+				  		<td class="client">{{i.client.name}}</td>
+				  		<td>{{i.date_due_by | formatDate: 'M/DD/YYYY'}}</td>
+				  		<td><span ng-if="i.total">$</span>{{(i.total || '-')}}</td>
+				  		<td><a ng-click="gotoInvoice(i.id)" class="btn btn-default btn-xs">Edit</a></td>
+				  	</tr>
+				  	<tr ng-show="filterResults.length == 0">
+				  		<td colspan="8">No results found.</td>
+			  		</tr>
+				  </tbody>
+				</table>
+
+			</div>
+
+	    </div>
+	</div>
+
+</div>

@@ -1,0 +1,4 @@
+Loading page (1/2)
+[>                                                           ] 0%[======>                                                     ] 10%[==============================>                             ] 50%[============================================================] 100%Printing pages (2/2)                                               
+[>                                                           ] Done                                                           
+Exit with code 1 due to network error: UnknownServerError

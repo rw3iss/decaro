@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+</head>
+<body>
+<?php 
+	$order = $data['order'];
+	$clientStation = $data['clientStation'];
+?>
+
+<style>
+	<?php echo file_get_contents(getcwd() . '/assets/css/responsive.css'); ?>
+	<?php echo file_get_contents(getcwd() . '/assets/css/orderpdf.css'); ?>
+</style>
+
+<div class="container-fluid page" id="orderpdf">
+
+  	<div id="page-content">
+
+	  	<div class="row clearfix" id="date">
+	  		<span id="month-day">
+			  	<?php
+			  		$date = new DateTime($order->date_created);
+			  		echo $date->format('m/d'); 
+		  		?>
+	  		</span>
+	  		<span id="year">
+			  	<?php
+			  		echo $date->format('y'); 
+		  		?>
+	  		</span>
+	  	</div>
+
+	  	<div class="row clearfix" id="addresses">
+	  		<div class="address" id="shipper">
+	  		<?php 
+		  		if($order->shipper_enabled) {
+	  				echo $order->shipper_name . '<br/>';
+	  				echo $order->origin_address . '<br/>';
+					echo $order->origin_city . ', ' . $order->origin_state . ' ' . $order->origin_zipcode;
+	  			} 
+	  		?>
+	  		</div>
+
+	  		<div class="address" id="consignee">
+	  		<?php
+			    if($order->destination_name != '') {
+			    	echo $order->destination_name . '<br/>';
+			    }
+			    
+			    echo $order->destination_address . '<br/>';
+			    echo $order->destination_city . ', ' . $order->destination_state . ' ' . $order->destination_zipcode;
+	  		?>
+	  		</div>
+	  	</div>
+
+	  	<div class="row" id="meta">
+	  		<div id="order_number"><?php echo $order->order_number; ?></div>
+
+	  		<?php 
+	  			if($order->customer_number != '') {
+					echo '<br/>Customer Reference:' . $order->customer_number;
+			    }
+
+			    if($order->status == 'COMPLETE' && false) {
+					echo 'Order completed:' . date_create($order->pod_date)->format('n/j/Y') . '<br/>';
+					echo 'Signed by:' . $order->pod_signature;
+			    }
+		    ?>
+	  	</div>
+
+	  	<div class="row" id="items-header">
+	  	</div>
+
+	  	<div class="row clearfix" id="items">
+	  		<div id="pieces"><?php echo $order->pieces; ?>&nbsp;</div>
+	  		<div id="description"><?php echo $order->description ?>&nbsp;</div>
+	  		<div id="weight"><?php echo $order->weight; ?>&nbsp;</div>
+	  		<div id="charges"><?php echo $order->pod_total; ?>&nbsp;</div>
+	  		<div id="payment_type">
+		  		<?php
+		  		 	if ($order->payment_type == 'collect') {
+		  		 	?>
+		  		 		<div id="collect">X</div>
+					<?php
+				    } else if ($order->payment_type == 'prepaid') {
+				    ?>
+				    	<div id="prepaid">X</div>
+				    <?php
+					} else if ($order->payment_type == 'thirdparty') {
+					?>
+						<div id="thirdparty-x">X</div>
+						<div id="thirdparty">
+						<?php
+							echo $order->third_party_address;
+							if(true || !empty($order->third_party_address2)) {
+							    echo  $order->third_party_address2 . '<br/>';
+							}
+					    	echo $order->third_party_city . ', ' . $order->third_party_state . ' ' . $order->third_party_zipcode;
+						?>
+						</div>
+					<?php
+					}
+			    ?>
+		    </div>
+	  	</div>
+
+	  	<?php
+		    if($order->fuel_surcharge != "" && false) {
+			    echo 'Fuel Surcharge: ' . $order->fuel_surcharge;
+			}
+		?>
+
+	  	<div class="row" id="total">
+	  		<div class="wrap">
+	  	<?php
+	  		setlocale(LC_MONETARY, 'en_US.UTF-8');
+
+	    	$moneyString = $order->pod_total;//money_format('%.2n', str_replace('$','',str_replace(',','',$order->pod_total)));
+        	echo $moneyString;
+	  	?>	
+	  		</div>
+	  	</div>
+
+	</div>
+
+</div>
+</body>
+</html>

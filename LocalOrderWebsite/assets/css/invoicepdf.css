@@ -1,0 +1,237 @@
+html, body {
+  height: auto;
+  font-size: 16px; }
+
+* {
+  box-sizing: border-box; }
+
+#page-content {
+  page-break-inside: auto;
+  position: relative;
+  font-family: Arial;
+  max-width: 1160px;
+  min-height: 500px;
+  margin: 0px 20px 0 20px; }
+  #page-content > * {
+    page-break-inside: avoid; }
+  #page-content #header {
+    display: flex;
+    flex-wrap: nowrap; }
+    #page-content #header > div {
+      display: block;
+      float: left;
+      flex: 1;
+      font-size: 1.2em; }
+    #page-content #header #logo {
+      margin-right: 60px; }
+    #page-content #header #address,
+    #page-content #header #phone,
+    #page-content #header #meta {
+      display: block;
+      padding: 15px;
+      font-weight: bold; }
+    #page-content #header #meta {
+      float: right;
+      text-align: right; }
+  #page-content .type-header {
+    position: absolute;
+    top: 75px;
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 4px;
+    width: 200px;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    text-align: center;
+    left: 50%;
+    margin-left: -100px; }
+  #page-content #client {
+    margin: 37.5px 15px 30px;
+    line-height: 1.3em; }
+    #page-content #client .label {
+      display: block;
+      float: left;
+      font-size: .9em;
+      margin-bottom: 5px; }
+    #page-content #client .client-wrapper {
+      display: block;
+      float: left;
+      margin-left: 15px; }
+      #page-content #client .client-wrapper #name {
+        font-weight: bold;
+        font-size: 1.2em; }
+
+#orders-header > div {
+  display: flex;
+  justify-content: center;
+  white-space: nowrap;
+  font-weight: bold;
+  text-align: center;
+  border-left: 1px solid #555;
+  background: black;
+  color: white; }
+  #orders-header > div:last-child {
+    border-right: 1px solid #555; }
+
+#orders-header,
+#orders .order {
+  display: flex;
+  flex-wrap: nowrap; }
+  #orders-header > div,
+  #orders .order > div {
+    display: block;
+    float: left;
+    padding: 10px 10px;
+    white-space: initial;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; }
+  #orders-header .order-number,
+  #orders .order .order-number {
+    width: 160px; }
+  #orders-header .date,
+  #orders .order .date {
+    width: 120px; }
+  #orders-header .pieces,
+  #orders .order .pieces {
+    width: 100px; }
+  #orders-header .weight,
+  #orders .order .weight {
+    width: 100px; }
+  #orders-header .description,
+  #orders .order .description {
+    display: block;
+    flex: 3;
+    min-width: 250px; }
+  #orders-header .charges,
+  #orders .order .charges {
+    width: 120px; }
+
+#orders {
+  page-break-inside: auto;
+  page-break-after: auto;
+  height: auto; }
+  #orders .order {
+    page-break-inside: avoid;
+    page-break-before: auto; }
+    #orders .order > div {
+      font-size: .85em;
+      text-align: center;
+      border-left: 1px solid #555;
+      border-bottom: 1px solid black; }
+      #orders .order > div:last-child {
+        border-right: 1px solid black; }
+
+#bottom {
+  page-break-before: auto;
+  page-break-inside: avoid;
+  position: relative;
+  width: 100%;
+  height: 190px;
+  margin-top: 15px; }
+  #bottom #total {
+    page-break-inside: avoid;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    width: 100%;
+    height: 50px;
+    font-size: 1.2em; }
+    #bottom #total .label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      background-color: #ddd;
+      height: 100%;
+      width: 100px;
+      padding: 15px;
+      border: 1px solid black; }
+    #bottom #total .total {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      font-weight: bold;
+      padding: 15px;
+      min-width: 100px;
+      border: 1px solid black;
+      border-left: none; }
+  #bottom #liability {
+    page-break-inside: avoid;
+    width: 100%;
+    border-top: 1px solid black;
+    margin-top: 20px;
+    text-transform: uppercase; }
+    #bottom #liability .due {
+      font-weight: bold;
+      font-size: 1.2em;
+      text-align: center;
+      margin: 15px 0 0; }
+    #bottom #liability .text {
+      width: 95%;
+      margin: 7.5px auto;
+      font-size: .8em; }
+      #bottom #liability .text .bold {
+        font-weight: bold; }
+
+.onlyprint {
+  position: fixed;
+  right: 5vw;
+  top: -10px;
+  width: 100vw;
+  text-align: right;
+  height: 40px; }
+
+@media print {
+  @page {
+    size: auto;
+    /* auto is the initial value */
+    margin: 0 0 0 0;
+    /* this affects the margin in the printer settings */
+    padding-top: 20px; }
+  html, body {
+    margin: 40px 0 0 0;
+    padding: 20px 0 0 0; }
+  #page-content {
+    position: relative; }
+    #page-content #header > div {
+      font-size: 1em; }
+    #page-content #header #logo {
+      margin-right: 15px; }
+      #page-content #header #logo img {
+        height: auto;
+        width: 150px; }
+    #page-content #header #address,
+    #page-content #header #phone {
+      min-width: 190px; }
+    #page-content #header #meta {
+      min-width: 230px; }
+  #orders-header > div {
+    color: black;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    border-left: 1px solid black; }
+    #orders-header > div:last-child {
+      border-right: 1px solid black; }
+  #orders-header .order-number,
+  #orders .order .order-number {
+    width: 140px; }
+  #orders-header .date,
+  #orders .order .date {
+    width: 110px; }
+  #orders-header .pieces,
+  #orders .order .pieces {
+    width: 90px; }
+  #orders-header .weight,
+  #orders .order .weight {
+    width: 90px; }
+  #orders-header .description,
+  #orders .order .description {
+    min-width: 250px; }
+  #orders-header .charges,
+  #orders .order .charges {
+    width: 100px; }
+  #orders {
+    position: relative; } }

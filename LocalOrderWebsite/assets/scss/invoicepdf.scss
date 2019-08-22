@@ -1,0 +1,341 @@
+$itemPadding: 15px;
+$footerHeight: 200px;
+
+html, body {
+	height: auto;
+	font-size: 16px;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+#page-content {
+	page-break-inside:auto;
+	position: relative;
+	font-family: Arial;
+	max-width: 1160px;
+	min-height: 500px;
+	margin: 0px 20px 0 20px;
+
+	> * {
+		page-break-inside:avoid; 
+		//page-break-after:auto;
+	}
+
+	#header {
+		display: flex;
+		flex-wrap: nowrap;
+
+		> div {
+			display: block;
+			float: left;
+			flex: 1;
+			font-size: 1.2em;
+		}
+
+		#logo {
+			margin-right: $itemPadding*4;
+		}
+
+		#address,
+		#phone,
+		#meta {
+			display: block;
+			padding: $itemPadding;
+			font-weight: bold;
+		}
+
+		#meta {
+			float: right;
+			text-align: right;
+		}
+	}
+	
+	.type-header {
+        position: absolute;
+        top: 75px;
+        font-size: 18px;
+        font-weight: bold;
+        letter-spacing: 4px;
+        width: 200px;
+        border-top: 1px solid black;
+        border-bottom: 1px solid black;
+        text-align: center;
+        left: 50%;
+        margin-left: -100px;
+    }
+
+	#client {
+		margin: $itemPadding*2.5 $itemPadding $itemPadding*2;
+		line-height: 1.3em;
+
+		.label {
+			display: block;
+			float: left;
+			font-size: .9em;
+			margin-bottom: 5px;
+		}
+
+		.client-wrapper {
+			display: block;
+			float: left;
+			margin-left: $itemPadding;
+
+			#name {
+				font-weight: bold;
+				font-size: 1.2em;
+			}
+
+			#address {
+			}
+		}
+	}
+}
+
+#orders-header {
+	> div {
+		display: flex;
+		justify-content: center;
+		white-space: nowrap;
+		font-weight: bold;
+		text-align: center;
+		border-left: 1px solid #555;
+		background: black;
+		color: white;
+
+		&:last-child {
+			border-right: 1px solid #555;
+		}
+	}
+}
+
+#orders-header,
+#orders .order {
+		display: flex;
+		flex-wrap: nowrap;
+
+		> div {
+			display: block;
+			float: left;
+			padding: 10px 10px;
+			white-space: initial;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.order-number {
+			width: 160px;
+		}
+
+		.date {
+			width: 120px;
+		}
+
+		.pieces {
+			width: 100px;
+		}
+
+		.weight {
+			width: 100px;
+		}
+
+		.description {
+			display: block;
+			flex: 3;
+			min-width: 250px;
+		}
+
+		.charges {
+			width: 120px;
+		}
+}
+
+#orders {
+	page-break-inside: auto;
+	page-break-after: auto;
+	height: auto;
+
+	.order {
+		page-break-inside: avoid; page-break-before: auto;
+
+		> div {
+			font-size: .85em;
+			text-align: center;
+			border-left: 1px solid #555;
+			border-bottom: 1px solid black;
+
+			&:last-child {
+				border-right: 1px solid black;
+			}
+		}
+	}
+}
+
+#bottom {
+	page-break-before: auto;
+	page-break-inside: avoid;
+	position: relative;
+	width: 100%;
+	height: 190px;
+	margin-top: $itemPadding;
+	//margin-bottom: $itemPadding;
+
+	#total {
+	 	page-break-inside: avoid;
+		display: flex;
+		flex-wrap: nowrap;
+		justify-content: flex-end;
+		width: 100%;
+		height: 50px;
+		font-size: 1.2em;
+
+		.label {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-weight: bold;
+			background-color: #ddd;
+			height: 100%;
+			width: 100px;
+			padding: $itemPadding;
+			border: 1px solid black;
+		}
+
+		.total {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			text-align: center;
+			font-weight: bold;
+			padding: $itemPadding;
+			min-width: 100px;
+			border: 1px solid black;
+			border-left: none;
+		}
+	}
+
+	#liability {
+		page-break-inside: avoid;
+		width: 100%;
+		border-top: 1px solid black;
+		margin-top: $itemPadding+5;
+		text-transform: uppercase;
+
+		.due {
+			font-weight: bold;
+			font-size: 1.2em;
+			text-align: center;
+			margin: $itemPadding 0 0;
+		}
+
+		.text {
+			width: 95%;
+			margin: $itemPadding/2 auto;
+			font-size: .8em;
+
+			.bold {
+				font-weight: bold;
+			}
+		}
+	}
+}
+
+
+.onlyprint {
+	position: fixed;
+	right: 5vw;
+	top: -10px;
+	width: 100vw;
+	text-align: right;
+	height: 40px;
+}
+
+
+@media print {
+	@page {
+	    size: auto;   /* auto is the initial value */
+	    margin: 0 0 0 0;  /* this affects the margin in the printer settings */
+	    padding-top: 20px;
+	}
+
+	html, body {
+		margin: 40px 0 0 0;
+		padding: 20px 0 0 0;
+	}
+
+	#page-content {
+		position: relative;
+
+		#header {
+			> div {
+				font-size: 1em;
+			}
+
+			#logo {
+				margin-right: $itemPadding;
+
+				img {
+					height: auto;
+					width: 150px;
+				}
+			}
+
+			#address,
+			#phone {
+				min-width: 190px;
+			}
+
+			#meta {
+				min-width: 230px;
+			}
+		}
+	}
+
+	#orders-header {
+		> div {
+			color: black;
+			border-top: 1px solid black;
+			border-bottom: 1px solid black;
+			border-left: 1px solid black;
+
+			&:last-child {
+				border-right: 1px solid black;
+			}
+		}
+	}
+
+	#orders-header,
+	#orders .order {
+		.order-number {
+			width: 140px;
+		}
+
+		.date {
+			width: 110px;
+		}
+
+		.pieces {
+			width: 90px;
+		}
+
+		.weight {
+			width: 90px;
+		}
+
+		.description {
+			min-width: 250px;
+		}
+
+		.charges {
+			width: 100px;
+		}
+	}
+
+	#orders {
+		position: relative;
+	}
+
+}

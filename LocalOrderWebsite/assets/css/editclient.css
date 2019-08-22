@@ -1,0 +1,32 @@
+
+#editclient { }
+
+#editclient #meta .client-name { display: block; }
+
+#editclient #clientForm { }
+
+#editclient .form textarea { max-width: 100%; } 
+
+#editclient .form .dp-wrapper { position: relative; }
+#editclient .form .dp-wrapper .dp-edit { display: block; margin-top: 5px; cursor: pointer; }
+#editclient .form .dp-wrapper .datepicker { display: none; position: absolute; right: 30px; top: -15px; z-index: 11; }
+#editclient .form .select2 { width: 100%; }
+
+#editclient .form #thirdPartyAddressWrapper { margin-top: 10px; }
+
+#editclient .form#stationForm { margin-top: 0px; }
+#editclient .form#stationForm .stationFormContainer { margin-top: 20px; }
+
+#editclient #clientStations .station-options .button-container { float: left; }
+#editclient #clientStations .station-options .button-container + * { margin-left: 10px; }
+
+#editclient #clientStations .existing-stations { margin-top: 15px; color: #996F45; }
+#editclient #clientStations .existing-stations h4 { font-size: 1em; }
+
+#editclient #clientStations .existing-stations table tr { color: #444; }
+#editclient #clientStations #clientStationsList {margin-top: 0px; }
+
+#editclient #recentOrders .data-table { margin-top: 10px; }
+
+#editclient #recentOrders .none-found,
+#editclient #payments .none-found { color: #888; }

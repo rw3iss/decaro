@@ -1,0 +1,52 @@
+<link rel="stylesheet" href="/assets/css/nav.css" media="screen">
+
+<div id="nav">
+
+	<nav role="navigation" ng-controller="NavigationController">
+		<ul id="navlist">
+			<li class="logo">
+				<a href="#/"><img src="/assets/img/decaro_logo_sm2.png"/></a>
+			</li>
+			<li>
+				<a href="#/orders">Orders</a>
+				<ul>
+					<li><a href="#/neworder">New Order</a></li>
+					<li><a href="#/orders">View All Orders</a></li>
+				</ul>
+			</li>
+			<li>
+				<a href="#/clients">Clients</a>
+				<ul>
+					<li><a href="#/newclient">New Client</a></li>
+					<li><a href="#/clients">View All Clients</a></li>
+				</ul>
+			</li>
+			<li>
+				<a href="#/invoices">Invoicing</a>
+				<ul>
+					<li><a href="#/newinvoice">New Invoice</a></li>
+					<li><a href="#/invoices">View All Invoices</a></li>
+				</ul>
+			</li>
+			<li>
+				<a href="#/manifests">Manifests</a>
+				<ul>
+					<li><a href="#/newmanifest">New Manifest</a></li>
+					<li><a href="#/manifests">View All Manifests</a></li>
+				</ul>
+			</li>
+			<li ng-show="currentUser.role == 'ADMINISTRATOR'">
+				<a href="#/users">Users</a>
+				<ul>
+					<li><a href="#/newuser">New User</a></li>
+					<li><a href="#/users">View All Users</a></li>
+				</ul>
+			</li>
+			<li ng-show="currentUser.role == 'ADMINISTRATOR' && false">
+				<a href="#/settings">Settings</a>
+			</li>
+			<li class="current-user"><span>Welcome, {{currentUser.username}} <a id="logout" ng-click="logout()">Logout</a></span></li>
+		</ul>
+	</nav>
+
+</div>

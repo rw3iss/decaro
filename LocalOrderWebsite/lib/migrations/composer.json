@@ -1,0 +1,17 @@
+{
+    "name": "rw3iss/BetterPhpMigrations",
+    "description": "Easy to user migrations available from command line or a web interface!",
+    "homepage": "http://ryanweiss.net",
+    "repositories": [{
+        "type": "package",
+        "package": {
+            "name": "rw3iss/BetterPhpMigrations",
+            "version": "1.0.0",
+            "source": {
+                "url": "https://github.com/rw3iss/BetterPhpMigrations.git",
+                "type": "git",
+                "reference": "1.0.0"
+            }
+        }
+    }]
+}

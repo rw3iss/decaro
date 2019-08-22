@@ -1,0 +1,65 @@
+
+<link rel="stylesheet" href="/assets/css/userlist.css" media="screen">
+
+<div class="container-fluid page listing" id="userlist">
+
+	<div class="row" id="page-header">
+		<div class="header col-md-12">
+	    	<h2>Users</h2>
+	    </div>
+	</div>
+	
+	<div class="row" id="page-content">
+
+	  	<!-- User Filter -->
+	    <div class="col-md-2 sidebar" id="filter">
+
+	    	<form class="form" role="form">
+
+	  			<h4>Find Users</h4>
+
+			  <div class="form-group">
+			  	<label for="client" class="control-label">Name</label>
+			    <input type="text" class="form-control" id="name" placeholder="Search" ng-model="filter.name" ng-change="filterChanged()">
+			  </div>
+
+			  <div class="form-group">
+			  	<button id="clear" class="col-md-offset-1 btn btn-default btn-sm" ng-click="resetFilter()">Reset Filter</button>
+			  </div>
+
+			</form>
+			  
+		</div>
+
+		<!-- Order List -->
+	    <div class="col-md-10 content list-container" id="userListTable">
+			<button id="clear" class="btn btn-default btn-sm" ng-click="createNewUser()">Create a new User</button>
+
+		    <table class="table table-striped data-table">
+			  <thead>
+			  	<th>#</th>
+			  	<th>First Name</th>
+			  	<th>Last Name</th>
+			  	<th>Username</th>
+			  	<th>Email</th>
+			  	<th>Role</th>
+			  	<th>Edit</th>
+			  </thead>
+			  <tbody>
+			  	<tr ng-repeat="u in filterUsers(users)" ng-click="gotoUser(u.id)">
+			  		<td>{{u.id}}</td>
+			  		<td>{{u.firstname}}</td>
+			  		<td>{{u.lastname}}</td>
+			  		<td>{{u.username}}</td>
+			  		<td>{{u.email}}</td>
+			  		<td>{{u.role | camelcase}}</td>
+			  		<td><a ng-click="gotoUser(o.id)" class="btn btn-default btn-xs">Edit</a></td>
+			  	</tr>
+			  </tbody>
+			</table>
+			
+	    </div>
+
+	</div>
+
+</div>
